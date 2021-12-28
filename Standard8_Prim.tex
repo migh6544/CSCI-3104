@@ -1,0 +1,230 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Midterm 1- Standard 8 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.gif}
+\DeclareGraphicsExtensions{.jpg}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $11{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+\newpage
+\section{Standard 8- Prim's Algorithm}
+
+\subsection{Problem \ref{Safe1}}
+\begin{required} \label{Safe1}
+Consider the following graph $G(V, E, w)$. Clearly indicate the order in which Prim's algorithm adds the edges to the minimum-weight spanning tree \textbf{using} $F$ \textbf{as the source vertex}. You may simply list the order of the edges; it is not necessary to exhibit the state of the algorithm at each iteration.
+\begin{center}
+\begin {tikzpicture}[semithick, node distance =2 cm and 3cm]
+\tikzstyle{blue}=[circle ,top color =white , bottom color = processblue!20 ,draw,processblue , text=blue , minimum width =1 cm];
+\tikzstyle{red}=[circle ,top color =white , bottom color = processred!20 ,draw, processred , text=blue , minimum width =1 cm];
+\tikzstyle{green}=[circle ,top color =white , bottom color = processgreen!20 ,draw, processgreen , text=blue , minimum width =1 cm];
+
+	\node[blue] (A) {$A$};
+	\node[blue] (B) [above right = of A] {$B$};
+	\node[blue] (C) [below right = of A] {$C$};
+	\node[blue] (D) [right = of B] {$D$};
+	\node[blue] (E) [right = of C] {$E$};
+	\node[blue] (F) [right = of D] {$F$};
+	\node[blue] (H) [right = of E] {$H$};
+	
+	\path (A) edge node[above] {$6$} (B);
+	\draw (A) edge node[below] {$4$} (C);
+	\path (B) edge node[left] {$7$} (C);
+	\path (B) edge node[above] {$4$} (D);
+	\path (C) edge node[above] {$3$} (E);
+	\draw (E) edge node[right] {$5$} (D);
+	\path (D) edge node[above] {$1$} (F);
+	\draw (E) edge node[below] {$9$} (H);
+	\draw (D) edge node[above] {$2$} (H);
+	\end{tikzpicture}  
+\end{center}
+
+\end{required}
+
+
+\begin{proof}[Answer:] \
+
+\item We initialize the intermediate spanning forest $\mathcal{F}$ to contain all the vertices of $G$, but no edges. We then initialize the priority queue to contain the edges incident to our source vertex $F$.
+\item $Q$ = [($\{F, D\}$, 1)] \\
+
+\item \textbf{1.} We poll the edge $\{F, D\}$ from the queue and mark $\{F, D\}$ as processed. Note that $w(\{F, D\})$ = 1. As $\{F, D\}$ has exactly one endpoint on the component containing $F$ (which is the isolated vertex $F$), we add $\{F, D\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $D$.
+\item $Q$ = [($\{D, H\}$, 2), ($\{B, D\}$, 4), ($\{D, E\}$, 5)] \\
+
+\item \textbf{2.} We poll the edge $\{D, H\}$ from the queue and mark $\{D, H\}$ as processed. Note that $w(\{D, H\})$ = 2. As $\{D, H\}$ has exactly one endpoint on the component containing $F$ (which is the isolated vertex $\{F, D\}$), we add $\{D, H\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $H$.
+\item $Q$ = [($\{B, D\}$, 4), ($\{D, E\}$, 5), $\{E, H\}$, 9)] \\
+
+\item \textbf{3.} We poll the edge $\{B, D\}$ from the queue and mark $\{B, D\}$ as processed. Note that $w(\{B, D\})$ = 4. As $\{B, D\}$ has exactly one endpoint on the component containing $F$ (which is the isolated vertex $\{F, D, H\}$), we add $\{B, D\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $B$.
+\item $Q$ = [($\{D, E\}$, 5), ($\{A, B\}$, 6), ($\{B, C\}$, 7), $\{E, H\}$, 9)] \\
+
+\item \textbf{4.} We poll the edge $\{D, E\}$ from the queue and mark $\{D, E\}$ as processed. Note that $w(\{D, E\})$ = 5. As $\{D, E\}$ has exactly one endpoint on the component containing $F$ (which is the isolated vertex $\{F, D, H, B\}$), we add $\{D, E\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $E$.
+\item $Q$ = [($\{C, E\}$, 3), ($\{A, B\}$, 6), ($\{B, C\}$, 7), $\{E, H\}$, 9)] \\ \\ \\
+
+\item \textbf{5.} We poll the edge $\{C, E\}$ from the queue and mark $\{C, E\}$ as processed. Note that $w(\{C, E\})$ = 3. As $\{C, E\}$ has exactly one endpoint on the component containing $F$ (which is the isolated vertex $\{F, D, H, B, E\}$), we add $\{C, E\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $C$. 
+\item $Q$ = [($\{A, C\}$, 4), ($\{A, B\}$, 6), ($\{B, C\}$, 7), $\{E, H\}$, 9)] \\ 
+
+\item \textbf{6.} We poll the edge $\{A, C\}$ from the queue and mark $\{A, C\}$ as processed. Note that $w(\{A, C\})$ = 4. As $\{A, C\}$ has exactly one endpoint on the component containing $F$ (which is the isolated vertex $\{F, D, H, B, E, C\}$), we add $\{A, C\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $A$.
+\item $Q$ = [($\{A, B\}$, 6), ($\{B, C\}$, 7), $\{E, H\}$, 9)] \\
+
+\item Now there are $[V(G)$ = $7)]$ $vertices$ and $\mathcal{F}$ has $[V(G)-1$ = $6)]$ $edges$. Prim’s Algorithm terminates and returns $\mathcal{F}$, which is our minimum-weight spanning tree, illustrated below: \\
+
+\begin{center}
+\begin {tikzpicture}[semithick, node distance =2 cm and 3cm]
+\tikzstyle{blue}=[circle ,top color =white , bottom color = processblue!20 ,draw,processblue , text=blue , minimum width =1 cm];
+\tikzstyle{red}=[circle ,top color =white , bottom color = processred!20 ,draw, processred , text=blue , minimum width =1 cm];
+\tikzstyle{green}=[circle ,top color =white , bottom color = processgreen!20 ,draw, processgreen , text=blue , minimum width =1 cm];
+
+	\node[blue] (A) {$A$};
+	\node[blue] (B) [above right = of A] {$B$};
+	\node[blue] (C) [below right = of A] {$C$};
+	\node[blue] (D) [right = of B] {$D$};
+	\node[blue] (E) [right = of C] {$E$};
+	\node[blue] (F) [right = of D] {$F$};
+	\node[blue] (H) [right = of E] {$H$};
+	
+	\draw (A) edge node[below] {$4$} (C);
+	\path (B) edge node[above] {$4$} (D);
+	\path (C) edge node[above] {$3$} (E);
+	\draw (E) edge node[right] {$5$} (D);
+	\path (D) edge node[above] {$1$} (F);
+	\draw (D) edge node[above] {$2$} (H);
+	\end{tikzpicture}  
+\end{center}
+
+
+\end{proof}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

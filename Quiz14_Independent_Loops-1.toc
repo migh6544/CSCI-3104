@@ -1,0 +1,4 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Instructions}{1}{section.1}%
+\contentsline {section}{\numberline {2}Honor Code (Make Sure to Virtually Sign)}{2}{section.2}%
+\contentsline {section}{\numberline {3}Standard 14- Analyzing Code I: Nested Independent Loops}{3}{section.3}%

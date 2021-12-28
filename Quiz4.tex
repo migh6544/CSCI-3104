@@ -1,0 +1,200 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+% \usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Quiz 4 - Greedy Counterexamples \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $1^{st}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item Any collaborations and external sources have been clearly cited in this document.
+\item I have not posted to external services including, but not limited to Chegg, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+\newpage
+\section{Standard 4- Greedy Counterexamples}
+
+\subsection{Problem \ref{prob}}
+\begin{required} \label{prob}
+Consider the Making Change problem where we have three coins: 3 cent pieces, 5 cent pieces, and 20 cent pieces. We take as input an integer $n \geq 0$. The goal is to make change for $n$ using the fewest number of coins. Consider a greedy algorithm which selects as many 20 cent pieces as possible, followed by as many 5 cent pieces, then lastly 3 cent pieces. \\
+
+\noindent Give an integer $n \geq 0$ such that (i) the greedy algorithm will not make change for $n$ (even using more coins than necessary), yet (ii) it is possible to make change for $n$ using \textbf{at least one of each coin}.
+\end{required}
+
+% Either type your answer in below, or uncomment the \includegraphics command
+% and use it to insert an approprate image. Try experimenting with the scale 
+% 0.9 the width option to resize your image if necessary.
+
+%\includegraphics[width=0.9\textwidth]{solution.jpg}
+
+\begin{proof}[Answer:]
+\item \textbf{Let $n \in \mathbb{N}$  be the amount for which we wish to make change for. Furthermore, since we need to make change for $n$ using at least one of each coin, then $n > (20 + 5 + 3) = 28$.}
+\begin{itemize}
+\item \textbf{Using the below algorithm, we can note that while the Greedy algorithm fails, we are still able to make change using the instructions of the problem when $n = 31$. When \color{red} $n = 31$, \color{black} the Greedy algorithm will attempt to create $\{[(1 * 20c) = 20]$ + $[(2 * 5c) = 10]\}$ = $30$. However, there will be a $remainder = (1)$ that is not devisable by 20, or 5, or 3. Thus the algorithm will fail to make the needed change.} 
+\item \textbf{That being said, we can clearly see that $\{[(1 * 20c) = 20]$ + $[(1 * 5c) = 5]$ + $[(2 * 3c) = 6]\}$ = $31$. Thus we can make the need change, using at least one of each coin, from the 20c, 5c, and 3c coins.}
+\end{itemize}
+
+\item \textbf{function} $CoinChange(n):$										
+	\item	\hspace*{10mm} $Count = [20c, 5c, 3c]$
+	\item	\hspace*{10mm} $20c = 0$
+	\item	\hspace*{10mm} $5c = 0$
+	\item	\hspace*{10mm} $3c = 0$
+	\item	\hspace*{10mm} $r = 0$
+
+	\item	\hspace*{10mm} \textbf{while} $(n$ $!=$ $0):$
+	
+		\item	\hspace*{20mm} \textbf{if} $(n \% 20):$
+			\item	\hspace*{30mm} $n = (n-20)$
+			\item	\hspace*{30mm} 20c++
+			\item	\hspace*{30mm} $r = n$
+			
+		\item	\hspace*{20mm} \textbf{else if} $(n \% 5):$
+			\item	\hspace*{30mm} $n = (n-5)$
+			\item	\hspace*{30mm} 5c++
+			\item	\hspace*{30mm} $r = n$
+			
+		\item	\hspace*{20mm} \textbf{else if} $(n \% 3):$
+			\item	\hspace*{30mm} $n = (n-3)$
+			\item	\hspace*{30mm} 3c++
+			\item	\hspace*{30mm} $r = n$
+
+\item	\hspace*{10mm} \textbf{if} $(r$ $!=$ $0):$
+\item	\hspace*{20mm} \textbf{print} ("Can not make change!")
+
+\item	\hspace*{10mm} \textbf{else}:	
+\item	\hspace*{20mm} \textbf{return}$(Count);$
+
+
+	
+
+
+\end{proof}
+
+
+%Include an Image: \includegraphics{ImageFileName}
+%Include an Image and Rotate 90 degree: \includegraphics[angle=90]{ImageFileName}
+%Include an Image, Rotate by 180 degrees, and scale by 50\% \includegraphics[scale=0.5, angle=90]{ImageFileName}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

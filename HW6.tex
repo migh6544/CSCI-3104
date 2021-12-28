@@ -1,0 +1,357 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+\usepackage{forest}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+\newtheorem*{requiredHC}{Problem HC}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+\newcommand{\interval}[4]{\draw (#2, #1) -- (#3, #1); % Usage: \interval{height}{start}{end}{label}
+\draw (#2, #1-0.11) -- (#2, #1+0.11); % draw left whisker
+\draw (#3, #1-0.11) -- (#3, #1+0.11); % draw right whisker
+\node[] at (#2-0.25, #1) {#4};
+}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Profs Josh Grochow and Bo Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Problem Set 6 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $11{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+Collaborators \dotfill \textbf{Me, Myself \& I}
+
+\tableofcontents
+
+\section*{Instructions}
+\addcontentsline{toc}{section}{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{must be typed}, using proper mathematical notation. We cannot accept hand-written solutions. Useful links and references on \LaTeX can be found \href{https://canvas.colorado.edu/courses/75824/pages/latex}{here on Canvas}.
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You are welcome and encouraged to collaborate with your classmates, as well as consult outside resources. You must \textbf{cite your sources in this document.} \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \hyperlink{HonorCode}{Honor Code}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section*{Honor Code (Make Sure to Virtually Sign the Honor Pledge)} 
+\addcontentsline{toc}{section}{Honor Code (Make Sure to Virtually Sign the Honor Pledge)}
+\hypertarget{HonorCode}{}
+
+\begin{requiredHC}
+On my honor, my submission reflects the following:
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item Any collaborations and external sources have been clearly cited in this document.
+\item I have not posted to external services including, but not limited to Chegg, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{requiredHC}
+
+\begin{proof}[Honor Pledge:] \
+\item \textbf{I agree to the above, Michael Ghattas.}
+\end{proof}
+
+
+\newpage
+\section{Standard 16 - Analyzing Code III: (Writing down recurrences)}
+
+
+\begin{required} \label{Recursive1}
+Write down the recurrence relation for the runtime complexity of these algorithms. \textbf{Don't forget to include the base cases.}
+
+\begin{algorithm}
+\caption{Writing Recurrences 1}\label{alg:Recurrence1}
+\begin{algorithmic}[1]
+\Procedure{Foo}{$\text{Integer } n$}
+\If{$n \leq 4$} 
+\Return
+\EndIf
+
+\noindent \\
+\State $\text{Foo}(n/3)$
+\State $\text{Foo}(n/3)$ \\
+
+\For{$i \gets 1; i \leq 2*n; i \gets i+1 $}
+	\State \textbf{print} \text{``Hi"}
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{proof}[Answer:] \
+\item \textbf{We note the base case condition is $(n \leq 4)$, and the recursion of $Foo$ happens twice on $(\frac{n}{3})$.}
+\item Thus the recurrence relation for the runtime complexity of these algorithms is: \\ 
+\begin{align*}
+T(n) = \begin{cases}
+\Theta(1) & : n \leq 4, \\
+2T(\frac{n}{3}) + \Theta(n) & : n > 4.
+\end{cases}
+\end{align*}
+%Your answer here
+\end{proof}
+
+
+%We have included a LaTeX code sample that may be helpful for displaying recurrences
+\begin{comment}
+\begin{align*}
+T(n) &= \begin{cases}
+5 & : \text{if } n \geq 0, \\
+7 & : \text{if } n < 0.
+\end{cases}
+\end{align*}
+\end{comment}
+
+
+
+
+\newpage
+
+
+
+\begin{algorithm}
+\caption{Writing Recurrences 2}\label{alg:Recurrence2}
+\begin{algorithmic}[1]
+\Procedure{Foo}{$\text{Integer } n$}
+\If{$n \leq 4$}
+\Return
+\EndIf
+
+\noindent \\
+\State $\text{Foo}(n/4)$
+\State $\text{Foo}(n/3)$
+\State $\text{Foo}(n/3)$ \\
+
+\For{$i \gets 1; i \leq 2*n; i \gets i*3 $}
+	\State \textbf{print} \text{``Hi"}
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\end{required}
+
+\begin{proof}[Answer:] \
+\item \textbf{We note the base case condition is $(n \leq 4)$, and the recursion of $Foo$ happens once on $(\frac{n}{4})$ and twice on $(\frac{n}{3})$.}
+\item Thus the recurrence relation for the runtime complexity of these algorithms is: \\ 
+\begin{align*}
+T(n) = \begin{cases}
+\Theta(1) & : n \leq 4, \\
+T(\frac{n}{4}) + 2T(\frac{n}{3}) + \Theta(n) & : n > 4.
+\end{cases}
+\end{align*}
+%Your answer here
+\end{proof}
+
+\newpage
+
+\section{Standard 17 - Unrolling}
+
+\begin{required} \label{Unrolling1}
+Consider the following recurrences and solve them using the unrolling method (i.e. find a suitable function $f(n)$ such that $T(n) \in \Theta(f(n))$). 
+\begin{enumerate} [label=(\alph*)]
+    \item 
+\begin{align*}
+T(n) = \begin{cases}
+3 & : n < 2, \\
+2T(n - 2) + 1 & : n \geq 2.
+\end{cases}
+\end{align*}
+
+\begin{proof}[Answer:] \
+\item \textbf{We first determine the number of times that we need to unroll. We hit a base case when $n - 2k < 2$. Solving for $k$, we obtain that:}
+\begin{align*}
+(n - 2k) &< 2 \\
+n - 2 &< 2k \\
+\frac{n - 2}{2} &< k
+\end{align*}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\item \textbf{So we have to unroll until $k$ = $\ceil*{\frac{(n - 2)}{2}}$}
+\item \textbf{When we unroll $T(n - 2i)$, we obtain $2T(n - 2(i + 1)) + 1$. Note that when we unroll $2T(n - 2(i + 1))$, we obtain $2[2T(n-2(i+2)))+1]$. So:}
+\begin{align*}
+T(n - 2i) &= 2[2T(n-2(i+2)))+1] + 1 \\
+&= 2^{2}T(n - 2(i + 2))) + 2^{1} * 1 + 2^{0} * 1
+\end{align*}
+\item \textbf{We intentionally left the coefficients as $2^2$, $2^1$, and $2^0$ respectively, to emphasize a pattern. Thus:}
+\begin{align*}
+T(n) &= 2^{k} * T(n - 2k) +2^{k} - 1 \\
+&= 2^{\ceil*{\frac{(n - 2)}{2}}} * T(n - 2\ceil*{\frac{(n - 2)}{2}}) +2^{\ceil*{\frac{(n - 2)}{2}}} - 1 \\
+&= 2^{\ceil*{\frac{(n - 2)}{2}}} * 3 + 2^{\ceil*{\frac{(n - 2)}{2}}} - 1 \\
+&= 4 * 2^{\ceil*{\frac{(n - 2)}{2}}} \\
+&= 4 * 2^{\ceil*{\frac{(n - 2)}{2}}} - 1
+\end{align*}
+\item \textbf{Taking the high-order term, we obtain that $T(n) \in \Theta(2^{\frac{n}{2}})$.}
+%Your answer here
+\end{proof}
+
+\newpage
+\item
+\begin{align*}
+T(n) = \begin{cases}
+4 & : n < 3, \\
+T(n-3) + 5n & : n \geq 3.
+\end{cases}
+\end{align*}
+
+\begin{proof}[Answer:] \
+\item Based on the methodology we followed in part (a), we proceed. \\
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\item \textbf{We first start by unrolling $T(n)$:}
+\begin{align*}
+T(n) &= T(n - 3) + 5n \\
+&= T(n - 6) + 5n + 5(n - 3) \\
+&= T(n - 9) + 5n +5(n - 3) + 5(n-6)
+\end{align*}
+item \textbf{Next we find $k$:}
+\begin{align*}
+n - 3k &< 3 \\
+n - 3 &< 3k \\
+\frac{n - 3}{3} &< k
+\end{align*}
+\item \textbf{Thus:} 
+\begin{align*}
+T(n) &= T(n - 3k) + 5nk - 5 * (\frac{3k(k - 1)}{2}) \\
+&= T(n - 3 * \ceil*{\frac{n - 3}{3}}) + [5n * \ceil*{\frac{n - 3}{3}}] - [5 * \frac{3 * \ceil*{\frac{n - 3}{3}} * (\ceil*{\frac{n - 3}{3}} - 1)}{2}]
+\end{align*}
+\item \textbf{Taking the high-order term, we obtain that $T(n) \in \Theta(n^{2})$.}
+
+%Your answer here
+\end{proof}
+\end{enumerate}
+
+\end{required}
+\newpage
+\section{Standard 18 - D\&C counter examples}
+
+\begin{required} \label{DCcounter}
+Consider the algorithm below which tries to find the  smallest Euclidean distance between a pair of points among $n$ points in x-y plane. Assume that input array $P$ is sorted according to x-coordinate. You may break ties amongst two points with the same $x$-coordinate as you wish. Give an instance of input (preferably containing 8 or less points) for which it fails to output the closest pair and explain why it fails. 
+\begin{algorithm}
+\caption{Closest pair}\label{alg:closestpair}
+\begin{algorithmic}[1]
+\Procedure{Closest}{$\text{Array of points } P[1, \ldots, n] $}
+\State n = P.length
+\If{$n = 2$}
+\Return norm(P[1],P[2])  (where norm refers to 2-norm which is Euclidean distance)
+\EndIf
+\If{$n = 1$}
+\Return $\infty$
+\EndIf
+\If{$n = 0$}
+\Return $\infty$
+\EndIf
+\State mid = $\lceil n/2 \rceil$
+\State \text{closest\_left} = CLOSEST( P[1, \ldots, mid] )
+\State \text{closest\_right} = CLOSEST( P[mid+1, \ldots, n] )
+\State return min\{\text{closest\_left},\text{closest\_right}\}
+
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\begin{proof}[Answer:] \
+\item \textbf{We will be proceeding based on the provided algorithm for Closest pair.} \\
+\item \textbf{An example of an input that fails : [(1,1) , (1,2) , (1,3)} \\
+\item \textbf{The input fails because of the following:}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\begin{itemize}
+\item $n = P.length = 3$ \\
+\item $mid = \ceil*{\frac{n}{2}}$ = $\ceil*{\frac{3}{2}} = \ceil*{1.5} = 2$ \\
+\item closest left = CLOSEST(P[$1 \to mid$]) = CLOSEST(P[$1 \to 2$]) = CLOSEST(P$[(1,1) , (1,2)]$) \\
+\hspace*{10mm} CLOSEST(P$[(1,1) , (1,2)]$) $\to$ $n = 2$ and $mid = 1$ \\
+\hspace*{20mm} closest left = CLOSEST(P[$1$]) = (1, 1) \\
+\item closest right = CLOSEST(P[$mid + 1 \to n$]) = CLOSEST(P[$3$]) = CLOSEST(P$[(1,3)]$) \\
+\hspace*{10mm} CLOSEST(P$[(1, 3)]$) $\to$ $n = 1$ $\to$ returns $\infty$ \\
+\end{itemize}
+\item \textbf{Thus the function return $\to$ min\{closest left,closest right\} = min\{(1, 1) , $(\infty)$\}. Clearly the wrong answer!}
+\end{proof}
+
+\end{required}
+
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT

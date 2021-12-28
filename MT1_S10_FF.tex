@@ -1,0 +1,336 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Midterm 1- Standard 10 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.gif}
+\DeclareGraphicsExtensions{.jpg}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $11^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+\newpage
+\section{Standard 10- Network Flows: Ford-Fulkerson}
+
+\begin{required} \label{Problem2}
+Consider the following flow network, with no flow being pushed across the edges.
+\begin{center}
+	\begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 3cm ,on grid ,
+	semithick ,
+	state/.style ={ circle ,top color =white , bottom color = processblue!20 ,
+	draw,processblue , text=blue , minimum width =1 cm}]
+
+	\node[state] (A) {$s$};
+	\node[state] (B) [above right = of A] {$B$};
+	\node[state] (C) [below right = of A] {$C$};
+	\node[state] (D) [right = of B] {$D$};
+	\node[state] (E) [right = of C] {$E$};
+	\node[state] (F) [below right = of D] {$t$};
+	
+	\path (A) edge node[above] {$0 / 5$} (B);
+	\path (A) edge node[above] {$0 / 3$} (C);
+	\path (B) edge node[left] {$0 / 2$} (C);
+	\path (B) edge node[above] {$0 / 4$} (D);
+	\path (B) edge node[right] {$0 / 2$} (E);
+	\path (C) edge node[above] {$0 / 4$} (E);
+	\path (D) edge node[above] {$0 / 5$} (F);
+	\path (E) edge node[above] {$0 / 5$} (F);
+	
+	\end{tikzpicture}  
+\end{center}
+
+
+\noindent Do the following.
+\begin{enumerate}[label=(\alph*)]
+\subsection{Problem 2\ref{2a}}
+\item \label{2a} Consider the flow-augmenting path $s \to B \to D \to t$. Push as much flow as possible through the flow-augmenting path and draw the updated flow network below.
+
+\begin{proof}[Answer:] \
+
+\item \textbf{Using $flow-augmenting$ path \color{red}$(f_1)$ := $s \to B \to D \to t$.} \\
+\item \textbf{Note the minimum available flow capacity across $(f_1)$ := $s \to B \to D \to t$ is the edge $[\{B, D\} = 4]$, thus we were able to push a maximum of $additional$ \color{red}$4-Units$.} \\
+
+\begin{center}
+	\begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 3cm ,on grid ,
+	semithick ,
+	state/.style ={ circle ,top color =white , bottom color = processblue!20 ,
+	draw,processblue , text=blue , minimum width =1 cm}]
+
+	\node[state] (A) {$s$};
+	\node[state] (B) [above right = of A] {$B$};
+	\node[state] (C) [below right = of A] {$C$};
+	\node[state] (D) [right = of B] {$D$};
+	\node[state] (E) [right = of C] {$E$};
+	\node[state] (F) [below right = of D] {$t$};
+	
+	\path (A) edge node[above] {$\color{red}4 \color{black}/ 5$} (B);
+	\path (A) edge node[above] {$0 / 3$} (C);
+	\path (B) edge node[left] {$0 / 2$} (C);
+	\path (B) edge node[above] {$\color{red}4 \color{black}/ 4$} (D);
+	\path (B) edge node[right] {$0 / 2$} (E);
+	\path (C) edge node[above] {$0 / 4$} (E);
+	\path (D) edge node[above] {$\color{red}4 \color{black}/ 5$} (F);
+	\path (E) edge node[above] {$0 / 5$} (F);
+	
+	\end{tikzpicture}  
+\end{center}
+\end{proof}
+
+
+
+
+\newpage
+\subsection{Problem 2\ref{2b}}
+\item \label{2b} Find a flow-augmenting path using the updated flow configuration from part (a). Then do the following: (i) clearly identify both the flow-augmenting path and the maximum amount of flow that can be pushed through said path; and then (ii) push as much flow through the flow-augmenting path and draw the updated flow network below.
+\begin{proof}[Answer:] \
+
+\item \textbf{Using $flow-augmenting$ path \color{red}$(f_2)$ := $s \to C \to E \to t$.} \\
+\item \textbf{Note the minimum available flow capacity across $(f_2)$ := $s \to C \to E \to t$ is the edge $[\{s, C\} = 3]$, thus we were able to push a maximum of $additional$ \color{red}$3-Units$.} \\
+
+\begin{center}
+	\begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 3cm ,on grid ,
+	semithick ,
+	state/.style ={ circle ,top color =white , bottom color = processblue!20 ,
+	draw,processblue , text=blue , minimum width =1 cm}]
+
+	\node[state] (A) {$s$};
+	\node[state] (B) [above right = of A] {$B$};
+	\node[state] (C) [below right = of A] {$C$};
+	\node[state] (D) [right = of B] {$D$};
+	\node[state] (E) [right = of C] {$E$};
+	\node[state] (F) [below right = of D] {$t$};
+	
+	\path (A) edge node[above] {$4 / 5$} (B);
+	\path (A) edge node[above] {$\color{red}3 \color{black}/ 3$} (C);
+	\path (B) edge node[left] {$0 / 2$} (C);
+	\path (B) edge node[above] {$4 / 4$} (D);
+	\path (B) edge node[right] {$0 / 2$} (E);
+	\path (C) edge node[above] {$\color{red}3 \color{black}/ 4$} (E);
+	\path (D) edge node[above] {$4 / 5$} (F);
+	\path (E) edge node[above] {$\color{red}3 \color{black}/ 5$} (F);
+	
+	\end{tikzpicture}  
+\end{center}
+\end{proof}
+
+
+
+\newpage
+\subsection{Problem 2\ref{2c}}
+\item \label{2c} Find a flow-augmenting path using the updated flow configuration from part (b). Then do the following: (i) clearly identify both the flow-augmenting path and the maximum amount of flow that can be pushed through said path; and then (ii) push as much flow through the flow-augmenting path and draw the updated flow network below.
+\begin{proof}[Answer:] \
+
+\item \textbf{Using $flow-augmenting$ path \color{red}$(f_3)$ := $s \to B \to C \to E \to t$.} \\
+\item \textbf{Note the minimum available flow capacity across $(f_3)$ := $s \to B \to C \to E \to t$ is the edge $[\{C, E\} = 1]$, thus we were able to push a maximum of $additional$ \color{red}$1-Unit$.} \\
+
+\begin{center}
+	\begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 3cm ,on grid ,
+	semithick ,
+	state/.style ={ circle ,top color =white , bottom color = processblue!20 ,
+	draw,processblue , text=blue , minimum width =1 cm}]
+
+	\node[state] (A) {$s$};
+	\node[state] (B) [above right = of A] {$B$};
+	\node[state] (C) [below right = of A] {$C$};
+	\node[state] (D) [right = of B] {$D$};
+	\node[state] (E) [right = of C] {$E$};
+	\node[state] (F) [below right = of D] {$t$};
+	
+	\path (A) edge node[above] {$\color{red}5 \color{black}/ 5$} (B);
+	\path (A) edge node[above] {$3 / 3$} (C);
+	\path (B) edge node[left] {$\color{red}1 \color{black}/ 2$} (C);
+	\path (B) edge node[above] {$4 / 4$} (D);
+	\path (B) edge node[right] {$0 / 2$} (E);
+	\path (C) edge node[above] {$\color{red}4 \color{black}/ 4$} (E);
+	\path (D) edge node[above] {$4 / 5$} (F);
+	\path (E) edge node[above] {$\color{red}4 \color{black}/ 5$} (F);
+	
+	\end{tikzpicture}  
+\end{center}
+\end{proof}
+
+
+
+\newpage
+\subsection{Problem 2\ref{2d}}
+\item \label{2d} Using the flow configuration from part (\ref{2c}), finish executing the Ford-Fulkerson algorithm. Include the following here: (i) your flow network, reflecting the maximum-valued flow configuration you found, and (ii) the corresponding minimum capacity cut. There may be multiple minimum capacity cuts, but you should identify the one corresponding to your maximum-valued flow configuration. Then (iii) finally, compare the value of your flow to the capacity of the cut. \\
+
+\noindent \textbf{Note:} You do \textbf{not} need to include the remaining steps of the Ford-Fulkerson algorithm. We will not check these steps when grading.
+\begin{proof}[Answer:] \
+
+\item \textbf{Looking back at our $flow-augmenting$ paths $(f_1)$, $(f_2)$, \& $(f_3)$ := \color{red}$(f*)$, \color{black}we were able to push a total maximum flow of $(4 + 3 + 1)$ = \color{red}$8-Units$.}
+
+\begin{center}
+	\begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 3cm ,on grid ,
+	semithick ,
+	state/.style ={ circle ,top color =white , bottom color = processblue!20 ,
+	draw,processblue , text=blue , minimum width =1 cm}]
+
+	\node[state] (A) {$s$};
+	\node[state] (B) [above right = of A] {$B$};
+	\node[state] (C) [below right = of A] {$C$};
+	\node[state] (D) [right = of B] {$D$};
+	\node[state] (E) [right = of C] {$E$};
+	\node[state] (F) [below right = of D] {$t$};
+	
+	\path (A) edge node[above] {$\color{blue}5 \color{black}/ \color{blue}5$} (B);
+	\path (A) edge node[above] {$\color{blue}3 \color{black}/ \color{blue}3$} (C);
+	\path (B) edge node[left] {$1 / 2$} (C);
+	\path (B) edge node[above] {$4 / 4$} (D);
+	\path (B) edge node[right] {$0 / 2$} (E);
+	\path (C) edge node[above] {$4 / 4$} (E);
+	\path (D) edge node[above] {$4 / 5$} (F);
+	\path (E) edge node[above] {$4 / 5$} (F);
+	
+	\end{tikzpicture}  
+\end{center}
+
+\item \textbf{Minimum-Capacity cut of $(f*)$ = $c(X, Y)$:}
+\begin{itemize}
+\item \textbf{Since the flow from \color{blue}$s \to B$ \color{black}and from \color{blue}$s \to C$ \color{black}is at full capacity, there are no other vertices to which we can push positive flow from $s$.}
+\item \textbf{Thus, \color{red}$X$ = \{s\} \color{black}and \color{red}$Y$ = \{B, C, D, E, t\}\color{black}, where $X$ is the set of $source$ vertices and $Y$ is the set of $sink$ vertices.}
+\end{itemize}
+
+\begin{align*}
+c(X, Y) &= c(s, B) + c(s, C) \\
+&= 5 + 3 \\
+&= \color{red}8-Units
+\end{align*} 
+
+\item \textbf{Therefore, we can conclude that for \color{red}$(f*)$: $Maximum Flow$ = $Minimum Cut$\color{black}.}
+\end{proof}
+
+\end{enumerate}
+\end{required}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

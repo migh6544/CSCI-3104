@@ -1,0 +1,259 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+\usepackage{forest}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+\newtheorem*{requiredHC}{Problem HC}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+\newcommand{\interval}[4]{\draw (#2, #1) -- (#3, #1); % Usage: \interval{height}{start}{end}{label}
+\draw (#2, #1-0.11) -- (#2, #1+0.11); % draw left whisker
+\draw (#3, #1-0.11) -- (#3, #1+0.11); % draw right whisker
+\node[] at (#2-0.25, #1) {#4};
+}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Problem Set 7 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $28^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+Collaborators \dotfill \textbf{Me, myself \& I}
+
+\tableofcontents
+
+\section*{Instructions}
+\addcontentsline{toc}{section}{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{must be typed}, using proper mathematical notation. We cannot accept hand-written solutions. Useful links and references on \LaTeX can be found \href{https://canvas.colorado.edu/courses/75824/pages/latex}{here on Canvas}.
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You are welcome and encouraged to collaborate with your classmates, as well as consult outside resources. You must \textbf{cite your sources in this document.} \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \hyperlink{HonorCode}{Honor Code}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section*{Honor Code (Make Sure to Virtually Sign the Honor Pledge)} 
+\addcontentsline{toc}{section}{Honor Code (Make Sure to Virtually Sign the Honor Pledge)}
+\hypertarget{HonorCode}{}
+
+\begin{requiredHC}
+On my honor, my submission reflects the following:
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item Any collaborations and external sources have been clearly cited in this document.
+\item I have not posted to external services including, but not limited to Chegg, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{requiredHC}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%%Type your name to indicate that you agree to the Honor Code
+\end{proof}
+
+
+
+\newpage
+\section{Standard 19: Tree Method.}
+
+\begin{required}
+Consider the recurrence $T(n)$ below. Using the {\bf tree method}, determine a suitable function $f(n)$ such that $T(n) \in \Theta(f(n))$. Clearly show all steps. Note the following:
+\begin{itemize}
+\item You may assume, without loss of generality, that $n$ is a power of $3$ (i.e., $n = 3^{k}$ for some integer $k \geq 0$).
+\item You may hand-draw your tree and embed it, provided it is legible and we do not have to rotate our screens to read it. However, \textbf{all your calculations must be typed}.
+\end{itemize}
+
+\[
+T(n) = \begin{cases} 1, &  n < 3 \\ 
+3T(n/3) + n^{2}, &  \text{otherwise.} \end{cases}
+\]
+
+\end{required}
+
+\begin{proof}[Answer:] \
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\item \textbf{Given the provided information:} $n = 3^{k} \to n^{2} = (3^{k})^2 = 3^{2k} = 9^{k}$
+\item \textbf{We identify the non-recursive work at each level:} $9^{i} \cdot \frac{n}{3} = \frac{n9^{i}}{3} = n \cdot 3^{i} = n \cdot (\frac{3}{1})^{i}$
+\item \textbf{Finding the value of $k$ when he reach the base case:} \\
+$\frac{n}{3^{k}} < 3 \to n < 3^{k + 1} \to \log n < \log 3^{k + 1} \to \log n < (k + 1) \log 3 \to \frac{\log n}{\log 3} < (k + 1) \to \log_3 < k + 1 \to \log_3 n - 1 < k$
+\item $k = \ceil*{\log_3 (n) - 1}$
+\item \textbf{Knowing we are dealing with a geometric series, we proceed as follows:}
+\begin{align*}
+T(n) &= \sum_{i = 0}^{\ceil*{\log_3 (n) - 1}} n \cdot (\frac{3}{1})^{i} \\
+&= n \cdot \sum_{i = 0}^{\ceil*{\log_3 (n) - 1}} (\frac{3}{1})^{i} \\
+&= n \cdot \sum_{i = 0}^{\ceil*{\log_3 (n) - 1}} [\frac{1 - 3^{[\ceil*{\log_3 (n) - 1}] + 1}}{1 - 3}] \\
+&= \frac{n}{2} \cdot [3^{\ceil*{\log_3 (n)}}] \\
+&= \frac{n}{2} \cdot [n^{\ceil*{\frac{1}{\log_3 (3)}}}] \\
+&= \frac{n}{2} \cdot [n^{\ceil*{1}}] \\
+&= \frac{n}{2} \cdot n \\
+&= \frac{n^{2}}{2} \\
+\end{align*}
+\item \textbf{Thus:} \color{red} $T(n) \in \Theta(n^{2})$ \color{black}.
+% YOUR ANSWER HERE
+\end{proof}
+
+
+
+\newpage
+\section{Standard 20: Quicksort.}
+
+\begin{required}
+\begin{enumerate}[label=(\alph*)]
+\subsection{Part \ref{S20a}}
+
+\item \label{S20a} Write down a recurrence relation that models the {\bf best case} running time of Quicksort, i.e. the case where {\sc Partition} selects the {\bf median} element at each iteration.
+
+\begin{proof}[Answer:] \
+
+% YOUR ANSWER BELOW
+\begin{align*}
+T(n) = \begin{cases}
+\text{$\Theta(1)$} & : n \leq 1, \\
+\text{$2T(\frac{n}{2}) + \Theta(n)$} & : n > 1.
+\end{cases}
+\end{align*}
+\end{proof}
+
+
+\newpage 
+\subsection{Part \ref{S20b}}
+\item \label{S20b} Write down a recurrence relation that models the {\bf worst case} running time of Quicksort, i.e. the case where {\sc Partition} selects the {\bf last} element at each iteration.
+
+\begin{proof}[Answer]
+% YOUR ANSWER BELOW
+\begin{align*}
+T(n) = \begin{cases}
+\text{$\Theta(1)$} & : n \leq 1, \\
+\text{$T(n -1) + \Theta(n)$} & : n > 1.
+\end{cases}
+\end{align*}
+\end{proof}
+
+
+
+\newpage
+\subsection{Part \ref{S20c} }
+
+\item \label{S20c} Suppose that we modify {\sc Partition}($A,s,e$) so that it chooses the median element of $A[s..e]$ in calls that occur in nodes of even depth of the recursion tree of a call {\sc Quicksort}($A[1, \ldots, n],1, n$), and it chooses the maximum element of $A[s..e]$ in calls that occur in nodes of odd depth of this recursion tree. \\
+  
+\noindent Assume that the running time of this modified {\sc Partition} is still $\Theta(n)$ on any subarray of length $n$. You may assume that the root of a recursion tree starts at level $0$ (which is an even number), its children are at level 1, etc. \\
+  
+\noindent \textbf{Your job} is to write down a recurrence relation for the running time of this version of {\sc Quicksort} given an array $n$ distinct elements and solve it asymptotically, i.e.\ give your answer as $\Theta(f(n))$ for some function $f(n)$. Show your work.
+
+\begin{proof}[Answer:] \
+
+\item \textbf{The modified version of $Quicksort$ mentioned in the problem alternates between best-case \& worst-case runtime complexity, both of which are defined in parts (a) and (b) above. Thus:}
+\begin{align*}
+T(n) = \begin{cases}
+\text{$2T(\frac{n}{2}) + \Theta(n)$} & : When \to even \\
+\text{$T(n -1) + \Theta(n)$} & : When \to odd
+\end{cases}
+\end{align*}
+\item \textbf{We now consider the combined runtime complexity by considering the best-case \& worst-case runtime.}
+\item \textbf{When considering the best-case scenario, we can define it as:}
+\begin{itemize}
+\item $f(n) = 2 g(\frac{n}{2}) + \Theta(n)$
+\item $g(n) = 2 f(n - 1) + \Theta(n)$
+\end{itemize}
+\item \textbf{Thus we can note that $T(n) = f(n) = g(n)$. Now we substitute the values from above and start combining the values into $f(n)$:}
+\begin{itemize}
+\item $f(n) = 2f(\frac{n}{2 - 1}) + \frac{3}{2}\Theta(n)$
+\item $g(n) = 2g(\frac{n - 1}{2}) + 2\Theta(n) - 1$
+\item $f(n) = g(n)$
+\item $f(n) = 2 f(\frac{n}{2 - 1}) + 2\Theta(n)$ = $2f(\frac{n}{2}) + 2\Theta(n)$
+\end{itemize}
+\item \textbf{Note that the runtime complexity is approximately double the same the best-case scenario, therefore the combined runtime complexity is:}
+\item \color{red} $T(n) \in \Theta(n\log n)$ \color{black}.
+% YOUR ANSWER HERE
+\end{proof}
+
+\end{enumerate}
+\end{required}
+
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT

@@ -1,0 +1,553 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+\usepackage{forest}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+\newtheorem*{requiredHC}{Problem HC}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+\newcommand{\interval}[4]{\draw (#2, #1) -- (#3, #1); % Usage: \interval{height}{start}{end}{label}
+\draw (#2, #1-0.11) -- (#2, #1+0.11); % draw left whisker
+\draw (#3, #1-0.11) -- (#3, #1+0.11); % draw right whisker
+\node[] at (#2-0.25, #1) {#4};
+}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Profs Josh Grochow and Bo Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Problem Set 5 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $12{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+Collaborators \dotfill \textbf{Me, Myself \& I}
+
+\tableofcontents
+
+\section*{Instructions}
+\addcontentsline{toc}{section}{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{must be typed}, using proper mathematical notation. We cannot accept hand-written solutions. Useful links and references on \LaTeX can be found \href{https://canvas.colorado.edu/courses/75824/pages/latex}{here on Canvas}.
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You are welcome and encouraged to collaborate with your classmates, as well as consult outside resources. You must \textbf{cite your sources in this document.} \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \hyperlink{HonorCode}{Honor Code}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section*{Honor Code (Make Sure to Virtually Sign the Honor Pledge)} 
+\addcontentsline{toc}{section}{Honor Code (Make Sure to Virtually Sign the Honor Pledge)}
+\hypertarget{HonorCode}{}
+
+\begin{requiredHC}
+On my honor, my submission reflects the following:
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item Any collaborations and external sources have been clearly cited in this document.
+\item I have not posted to external services including, but not limited to Chegg, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{requiredHC}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%%Replace this comment with the Honor Pledge
+\end{proof}
+
+
+\newpage
+
+\section{Standard 12- Asymptotics I (Calculus I techniques)}
+\begin{required}
+For each part, you will be given a list of functions. Your goal is to order the functions from \textbf{slowest growing} to \textbf{fastest growing}. That is, if your answer is $f_{1}(n), \ldots, f_{k}(n)$, then it should be the case that $f_{i}(n) \in O(f_{i+1}(n))$ for all $i$. If two adjacent functions have the same order of growth (that is, $f_{i}(n) \in \Theta(f_{i+1}(n))$), clearly specify this. \textbf{Show all work, including Calculus details.} Plugging into WolframAlpha is not sufficient. \\
+
+\noindent You may find the following helpful.
+\begin{itemize}
+\item Recall that our asymptotic relations are transitive. So if $f(n) \in O(g(n))$ and $g(n) \in O(h(n))$, then $f(n) \in O(h(n))$. The same applies for little-o, Big-Theta, etc. Note that the goal is to order the growth rates, so transitivity is very helpful. We encourage you to make use of transitivity rather than comparing all possible pairs of functions, as using transitivity will make your life easier.
+
+\item You may also use the Limit Comparison Test. However, you \textbf{MUST} show all limit computations at the same level of detail as in Calculus I-II. Should you choose to use Calculus tools, whether you use them correctly will count towards your score.
+
+\item You may \textbf{NOT} use heuristic arguments, such as comparing degrees of polynomials or identifying the ``high order term" in the function.
+
+\item If it is the case that $g(n) = c \cdot f(n)$ for some constant $c$, you may conclude that $f(n) = \Theta(g(n))$ without using Calculus tools. You must clearly identify the constant $c$ (with any supporting work necessary to identify the constant- such as exponent or logarithm rules) and include a sentence to justify your reasoning. 
+\end{itemize}
+
+
+\noindent You may also find it helpful to order the functions using an \texttt{itemize} block, with the work following the end of the \texttt{itemize} block.
+\begin{itemize}
+\item This function grows the slowest: $f_{1}(n)$
+\item These functions grow at the same asymptotic rate and faster than $f_{1}(n)$: $f_{2}(n), f_{3}(n), \ldots$
+\item These functions grow at the same asymptotic rate, but faster than $f_{2}(n)$: $f_{k}(n)$.
+\end{itemize}
+
+
+\noindent \\ Also below is an example of an \texttt{align} block to help you organize your work.
+\begin{align*}
+\lim_{n \to \infty} \frac{n^{2}}{2^{n}} &= \lim_{n \to \infty} \frac{2n}{\ln(2) \cdot 2^{n}} \\
+&= \lim_{n \to \infty} \frac{2}{(\ln(2))^{2} \cdot 2^{n}} \\
+&= 0.
+\end{align*}
+\newpage
+\begin{enumerate} [label=(\alph*)]
+\subsection{Problem 1\ref{1a}}
+    \item \label{1a} $ n^2+20n$,\qquad  $ n^2-100$, \qquad $n^3-10n^2$,\qquad  $n^2\sqrt{n}$.
+    \begin{proof}[Answer:] \
+
+\begin{itemize}
+\item \textbf{Let $f(n) = n^2+20n$}
+\item \textbf{Let $g(n) = n^2-100$}
+\item \textbf{Let $h(n) = n^3-10n^2$}
+\item \textbf{Let $v(n) = n^2\sqrt{n}$}
+\end{itemize}
+
+\item \textbf{We begin with testing $f(n)$ with the other functions, starting with $g(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{n^2+20n}{n^2-100} = \frac{\infty}{\infty} \to L.H. \lim_{n \to \infty} \frac{f^{\prime}(n)}{g^{\prime}(n)} = \lim_{n \to \infty} \frac{2n+20}{2n} = \lim_{n \to \infty} \frac{2n}{2n} + \frac{20}{2n} \\
+&= \lim_{n \to \infty} 1 +  \frac{20}{2n} = 1 + 0 = 1
+\end{align*}
+\item \textbf{Since $(0 < L < \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Theta(g(n))$.}\\
+
+\item \textbf{Now for $f(n)$ with $h(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{h(n)} = \lim_{n \to \infty} \frac{n^2+20n}{n^3-10n^2} =  \frac{\infty}{\infty} \to L.H. \lim_{n \to \infty} \frac{f^{\prime}(n)}{h^{\prime}(n)} = \lim_{n \to \infty} \frac{2n+20}{3n^2-20n} =  \frac{\infty}{\infty} \to L.H. \\
+&= \lim_{n \to \infty} \frac{f^{\prime\prime}(n)}{h^{\prime\prime}(n)} = \lim_{n \to \infty} \frac{2}{6n-20} = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $f(n) \in O(h(n))$.}
+
+\item \textbf{Finally for $f(n)$ with $v(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{v(n)} = \lim_{n \to \infty} \frac{n^2+20n}{n^2\sqrt{n}} = \lim_{n \to \infty} \frac{n^2+20n}{n^2\cdot n^{1/2}} = \lim_{n \to \infty} \frac{n^2+20n}{n^{2+(1/2)}}  = \lim_{n \to \infty} \frac{n^2+20n}{n^{5/2}} = \frac{\infty}{\infty} \to L.H. \\
+&= \lim_{n \to \infty} \frac{f^{\prime}(n)}{v^{\prime}(n)} =  \lim_{n \to \infty} \frac{2n+20}{(5/2)n^{3/2}} = \frac{\infty}{\infty} \to L.H. = \lim_{n \to \infty} \frac{f^{\prime\prime}(n)}{v^{\prime\prime}(n)} = \lim_{n \to \infty} \frac{2}{(15/4)n^{1/2}} = (8/15) \cdot \lim_{n \to \infty} \frac{1}{n^{1/2}} \\
+&= (8/15) \cdot (0) = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $f(n) \in O(v(n))$.}
+
+\item \textbf{Given that $f(n) \in \Theta(g(n))$, $f(n) \in O(h(n))$ and $f(n) \in O(v(n))$, we now test $h(n)$ \& $v(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{h(n)}{v(n)} = \lim_{n \to \infty} \frac{n^3-10n^2}{n^2\sqrt{n}} = \lim_{n \to \infty} \frac{n^3-10n^2}{n^{5/2}} = \frac{\infty}{\infty} \to L.H. = \lim_{n \to \infty} \frac{h^{\prime}(n)}{v^{\prime}(n)} = \lim_{n \to \infty} \frac{3n^2-20n}{(5/2)n^{3/2}} \\
+&= \frac{\infty}{\infty} \to L.H. = \lim_{n \to \infty} \frac{h^{\prime\prime}(n)}{v^{\prime\prime}(n)} = \lim_{n \to \infty} \frac{6n-20}{(15/4)n^{1/2}} = \lim_{n \to \infty} \frac{6n-20}{(15/4)n^{1/2}} = \frac{\infty}{\infty} \to L.H. = \lim_{n \to \infty} \frac{h^{\prime\prime\prime}(n)}{v^{\prime\prime\prime}(n)} \\
+&= \lim_{n \to \infty} \frac{6}{(15/8)n^{-1/2}} = (48/15) \cdot \lim_{n \to \infty} \frac{1}{n^{-1/2}} = (48/15) \cdot \lim_{n \to \infty} n^{1/2} = (48/15) \cdot \infty = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $h(n) \in \Omega(v(n))$, and thus $\to$ $v(n) \in O(h(n))$.}
+
+\item \textbf{Based on the above analysis we can conclude:}
+\begin{itemize}
+\item \textbf{$f(n)$ \& $g(n)$ grow at the same asymptotic rate, but slower than $v(n)$ \& $h(n)$.}
+\item \textbf{$v(n)$ grows faster than $f(n)$ \& $g(n)$, but slower than $h(n)$.}
+\item \textbf{$h(n)$ grows the fastest, faster than $f(n)$, $g(n)$ \& $v(n)$.}
+\end{itemize}
+\item \textbf{Thus the order of the functions from slowest to fastest growth rate is: [$n^2+20n$, $n^2-100$] $\to$ $(n^2\sqrt{n})$ $\to$ $(n^3-10n^2)$.}
+    \end{proof}
+        
+    \newpage
+\subsection{Problem 1\ref{1b}}
+    \item \label{1b} $ (\log_4 n)^2 $, \qquad $10 \log_3 n$, \qquad $\log_2 n^2$, \qquad $n^{1/1000}$.
+    
+    \emph{Hint:} Recall change of logarithmic base formula $\log_a x = \log_b x\cdot\log_a b$
+    \begin{proof}[Answer:] \
+
+\begin{itemize}
+\item \textbf{Let $f(n) = (\log_4 n)^2$ = $[(\log_{10} n) * (\log_4 10)]^2$ = $(\log_4 10)^2 * (\log n)^2$.}
+\item \textbf{Let $g(n) = 10 \log_3 n$ = $10 * [(\log_{10} n) * (\log_3 10)]$ = $10 (\log_3 10) * (\log n)$ = $10\log_3 10 * \log n$.}
+\item \textbf{Let $h(n) = \log_2 n^2$ = $[(\log_{10} n^2) * (\log_2 10)]$ = $\log_2 10 * 2\log n$ = $2\log_2 10 * \log n$.}
+\item \textbf{Let $v(n) = n^{1/1000}$.}
+\end{itemize}
+
+\item \textbf{We begin with testing $f(n)$ with the other functions, starting with $g(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{(\log_4 10)^2 * (\log n)^2}{10\log_3 10 * \log n} = \frac{(\log_4 10)^2}{10\log_3 10}  \lim_{n \to \infty} \frac{(\log n)^2}{\log n} = \frac{(\log_4 10)^2}{10\log_3 10} \lim_{n \to \infty} \log n = \frac{(\log_4 10)^2}{10\log_3 10} * \infty = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(g(n))$, and thus $\to$ $g(n) \in O(f(n))$.}
+
+\item \textbf{Now for $f(n)$ with $h(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{h(n)} = \lim_{n \to \infty} \frac{(\log_4 10)^2 * (\log n)^2}{2\log_2 10 * \log n} =  \frac{(\log_4 10)^2}{2\log_2 10} \lim_{n \to \infty} \frac{(\log n)^2}{\log n} = \frac{(\log_4 10)^2}{2\log_2 10} * \lim_{n \to \infty} \log n = \frac{(\log_4 10)^2}{2\log_2 10} * \infty \\
+&= \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(h(n))$, and thus $\to$ $h(n) \in O(f(n))$.}
+
+\item \textbf{Finally for $f(n)$ with $v(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{v(n)} = \lim_{n \to \infty} \frac{(\log_4 10)^2 * (\log n)^2}{n^{\frac{1}{1000}}} = \frac{\infty}{\infty} \to L.H. = \lim_{n \to \infty} \frac{f^{\prime}(n)}{v^{\prime}(n)} = (\log_4 10)^2 \lim_{n \to \infty} \frac{(2\log n) / n}{1 / 1000 * (n)^{999/1000}} \\
+&= (\log_4 10)^2 \lim_{n \to \infty} \frac{(2\log n) *  1000 * (n)^{999/1000}}{n} =  2000(\log_4 10)^2 \lim_{n \to \infty} \frac{\log n *  n^{999/1000}}{n} \\
+&= 2000(\log_4 10)^2 \lim_{n \to \infty} \frac{\log n}{n^{\frac{1}{1000}}} = \frac{\infty}{\infty} \to L.H. = \lim_{n \to \infty} \frac{f^{\prime\prime}(n)}{v^{\prime\prime}(n)} = 2000(\log_4 10)^2 \lim_{n \to \infty} \frac{\frac{1}{n}}{\frac{1}{1000 * (n)^{999/1000}}} \\
+&= 2000(\log_4 10)^2 \lim_{n \to \infty} \frac{1000 * (n)^{999/1000}}{n} = 2000000(\log_4 10)^2 \lim_{n \to \infty} \frac{(n)^{999/1000}}{n} \\
+&= 2000000(\log_4 10)^2 \lim_{n \to \infty} \frac{1}{n^{\frac{1}{1000}}} = 2000000(\log_4 10)^2 * 0 = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $f(n) \in O(v(n))$.}
+
+\item \textbf{Given that $g(n) \in O(f(n))$ and $h(n) \in O(f(n))$, we now test $g(n)$ \& $h(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{g(n)}{h(n)} = \lim_{n \to \infty} \frac{10\log_3 10 * \log n}{2\log_2 10 * \log n} = \frac{10\log_3 10}{2\log_2 10} \lim_{n \to \infty} \frac{\log n}{\log n} = \frac{5\log_3 10}{\log_2 10} \lim_{n \to \infty} 1 = \frac{5\log_3 10}{\log_2 10}
+\end{align*}
+\item \textbf{Since $(0 < L < \infty)$, then by the Limit Comparison Test $\to$ $g(n) \in \Theta(h(n))$.}
+
+\item \textbf{Based on the above analysis we can conclude:}
+\begin{itemize}
+\item \textbf{$g(n)$ \& $h(n)$ grow at the same asymptotic rate, but slower than $f(n)$ \& $v(n)$.}
+\item \textbf{$f(n)$ grows faster than $g(n)$ \& $h(n)$, but slower than $v(n)$.}
+\item \textbf{$v(n)$ grows the fastest, faster than $f(n)$, $g(n)$ \& $h(n)$.}
+\end{itemize}
+\item \textbf{Thus the order of the functions from slowest to fastest growth rate is: [$10 \log_3 n$, $\log_2 n^2$] $\to$ $(\log_4 n)^2$ $\to$ $n^{1/1000}$.}
+
+\end{proof}
+\end{enumerate}
+
+\end{required}
+
+\newpage
+\section{Standard 13- Asymptotics II (Calculus II techniques): }
+\begin{required}
+
+
+
+    {\itshape For each of the following questions, put the growth rates in order, from slowest-growing to fastest. That is, if your answer is $f_1(n), f_2(n), \dotsc, f_k(n)$, then $f_i(n) \leq O(f_{i+1}(n))$ for all $i$. If two adjacent ones are asymptotically the same (that is, $f_i(n) = \Theta(f_{i+1}(n))$), you must specify this as well. 
+    Justify your answer (show your work). You may assume transitivity: if $f(n) \leq O(g(n))$ and $g(n) \leq O(h(n))$, then $f(n) \leq O(h(n))$, and similarly for little-oh, etc. The same instructions as for Problem 1 apply.}
+    \begin{enumerate}[label=(\alph*)]
+\subsection{Problem 2\ref{2a}}
+        \item \label{2a} $n^{\log_5 n}$, \qquad $4$ ,\qquad $n^{\log_3 n}$,\qquad  $n^{\log_n(n^2)}$, \qquad $ n^{\log_n 5}$ .
+        \begin{proof}[Answer:] \
+
+\begin{itemize}
+\item \textbf{Let $f(n) = n^{\log_5 n}$}
+\item \textbf{Let $g(n) = 4$}
+\item \textbf{Let $h(n) = n^{\log_3 n}$}
+\item \textbf{Let $v(n) = n^{\log_n n^2}$ = $n^{2\log_n n}$ = $n^2$}
+\item \textbf{Let $w(n) = n^{\log_n 5}$}
+\end{itemize}
+
+\item \textbf{We begin with testing $f(n)$ with the other functions, starting with $g(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{n^{\log_5 n}}{4} = \frac{1}{4} \lim_{n \to \infty} n^{\log_5 n} =  \frac{1}{4} * \infty = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(g(n))$, and thus $\to$ $g(n) \in O(f(n))$.}
+
+\item \textbf{Now for $f(n)$ with $h(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{h(n)} = \lim_{n \to \infty} \frac{n^{\log_5 n}}{n^{\log_3 n}}  = \lim_{n \to \infty} n^{(\log_5 n) - (\log_3 n)} = \lim_{n \to \infty} n^{[(\log_3 n) * (\log_5 3) - (\log_3 n)]} = \lim_{n \to \infty} n^{(\log_3 n) * [(\log_5 3) - (1)]} \\
+&= \lim_{n \to \infty} n^{(\log_3 n) * (-0.317)} = \lim_{n \to \infty} n^{-0.317 \log_3 n} = \lim_{n \to \infty} \frac{1}{n^{0.317 \log_3 n}} = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $f(n) \in O(h(n))$.}
+
+\item \textbf{Now for $f(n)$ with $v(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{v(n)} = \lim_{n \to \infty} \frac{n^{\log_5 n}}{n^2}  = \lim_{n \to \infty} n^{(\log_5 n) - (2)}  = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(v(n))$, and thus $\to$ $v(n) \in O(f(n))$.}
+
+\item \textbf{Finally for $f(n)$ with $w(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{w(n)} = \lim_{n \to \infty} \frac{n^{\log_5 n}}{n^{\log_n 5}}  = \lim_{n \to \infty} n^{(\log_5 n) - (\log_n 5)} = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(w(n))$, and thus $\to$ $w(n) \in O(f(n))$.}
+
+\item \textbf{Given that $g(n) \in O(f(n))$ and $v(n) \in O(f(n))$, we now test $g(n)$ \& $v(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{g(n)}{v(n)} = \lim_{n \to \infty} \frac{4}{n^2}  = 4\lim_{n \to \infty} \frac{1}{n^2} = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $g(n) \in O(v(n))$.}
+
+\item \textbf{Given that $g(n)$ is a constant, $v(n) \in O(f(n))$ and $w(n) \in O(f(n))$, we now test $v(n)$ \& $w(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{v(n)}{w(n)} = \lim_{n \to \infty} \frac{n^2}{n^{\log_n 5}} = \lim_{n \to \infty} n^{2 - (\log_n 5)} = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $v(n) \in \Omega(w(n))$, and thus $\to$ $w(n) \in O(v(n))$.}
+
+\item \textbf{Based on the above analysis we can conclude:}
+\begin{itemize}
+\item \textbf{$g(n)$ grows the slowest, slower than $f(n)$, $v(n)$, $w(n)$ \& $v(n)$.}
+\item \textbf{$w(n)$ grows the faster than $g(n)$, but slower than $v(n)$, $f(n)$ \& $h(n)$.}
+\item \textbf{$v(n)$ grows the faster than $g(n)$ \& $w(n)$, but slower than $f(n)$ \& $h(n)$.}
+\item \textbf{$f(n)$ faster than $g(n)$, $w(n)$ \& $v(n)$, but slower than $h(n)$.}
+\item \textbf{$h(n)$ grows the fastest, faster than $g(n)$, $w(n)$, $w(n)$ \& $f(n)$.}
+\end{itemize}
+\item \textbf{Thus the order of the functions from slowest to fastest growth rate is: $4$ $\to$ $n^{\log_n 5}$ $\to$ $n^{\log_n n^2}$ $\to$ $n^{\log_5 n}$ $\to$ $n^{\log_3 n}$.}
+
+        \end{proof}
+        \newpage
+
+\subsection{Problem 2\ref{2b}}
+        \item \label{2b} $n!$ , \qquad $2^n$ ,\qquad  $2^{n/3}$, \qquad  $n^n$,\qquad $2^{n-2}$,\qquad  $\sqrt{n^{2n+1}}$. (\emph{Hint:} Recall \href{https://en.wikipedia.org/wiki/Stirling\%27s_approximation}{Stirling's approximation}, which says that $n! \sim \left(\frac{n}{e}\right)^n \sqrt{2 \pi n}$, i.e. $\lim_{n \to \infty} \frac{n!}{\left(\frac{n}{e}\right)^n \sqrt{2 \pi n}} = 1$.).
+        \begin{proof}[Answer:] \
+
+\begin{itemize}
+\item \textbf{Let $f(n) = n!$}
+\item \textbf{Let $g(n) = 2^n$}
+\item \textbf{Let $h(n) = 2^{\frac{n}{3}}$}
+\item \textbf{Let $v(n) = n^n$}
+\item \textbf{Let $w(n) = 2^{n-2}$}
+\item \textbf{Let $k(n) = \sqrt{n^{2n+1}}$}
+\end{itemize}
+
+\item \textbf{We begin with testing $f(n)$ with the other functions, starting with $g(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{n!}{2^n} = \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt{2 \pi n}}{2^n} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt n}{2^n} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{2^n} * \sqrt n = \sqrt{2 \pi} \lim_{n \to \infty} (\frac{n}{2e})^n * \sqrt n \\
+&= \sqrt{2 \pi} * \infty = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(g(n))$, and thus $\to$ $g(n) \in O(f(n))$.}
+
+\item \textbf{Now for $f(n)$ with $h(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{h(n)} = \lim_{n \to \infty} \frac{n!}{2^{\frac{n}{3}}} = \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt{2 \pi n}}{2^{\frac{n}{3}}} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt n}{2^{\frac{n}{3}}} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{2^{(\frac{1}{3})^n}} * \sqrt n \\
+&= \sqrt{2 \pi} \lim_{n \to \infty} (\frac{n}{2^{\frac{1}{3}}e})^n * \sqrt n = \sqrt{2 \pi} * \infty = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(h(n))$, and thus $\to$ $h(n) \in O(f(n))$.}
+
+\item \textbf{Now for $f(n)$ with $v(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{v(n)} = \lim_{n \to \infty} \frac{n!}{n^n} = \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt{2 \pi n}}{n^n} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt n}{n^n} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{n^n} * \sqrt n = \sqrt{2 \pi} \lim_{n \to \infty} (\frac{n}{ne})^n * \sqrt n \\
+&= \sqrt{2 \pi} \lim_{n \to \infty} (\frac{1}{e})^n * \sqrt n = \sqrt{2 \pi} \lim_{n \to \infty} \frac{\sqrt n}{e^n} \to L.H. \to \lim_{n \to \infty} \frac{f(n)^{\prime}}{v(n)^{\prime}} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{\frac{1}{2\sqrt n}}{e^n} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{1}{2e^n \sqrt n} \\
+&= \sqrt{2 \pi} * 0 = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $f(n) \in O(v(n))$.}
+
+\item \textbf{Now for $f(n)$ with $w(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{w(n)} = \lim_{n \to \infty} \frac{n!}{2^{n - 2}} = \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt{2 \pi n}}{2^{n - 2}} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt n}{2^{n - 2}} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{2^{n - 2}} * \sqrt n \\
+&= \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{2^n * 2^{-2}} * \sqrt n = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{2^n} *  \frac{1}{2^{-2}} * \sqrt n = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{2^n} * 4 \sqrt n = 4 \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n}{2^n} * \sqrt n \\
+&= 4 \sqrt{2 \pi} \lim_{n \to \infty} (\frac{n}{2e})^n * \sqrt n = 4 \sqrt{2 \pi} * \infty = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $f(n) \in \Omega(w(n))$, and thus $\to$ $w(n) \in O(f(n))$.}
+
+\item \textbf{Finally for $f(n)$ with $k(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{f(n)}{k(n)} = \lim_{n \to \infty} \frac{n!}{\sqrt{n^{2n+1}}} = \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt{2 \pi n}}{\sqrt{n^{2n+1}}} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{(\frac{n}{e})^n \sqrt n}{\sqrt{n^{2n+1}}} = \sqrt{2 \pi} \lim_{n \to \infty} \frac{\sqrt n}{\sqrt{n^{2n+1}}} * (\frac{n}{e})^n \\
+&= \sqrt{2 \pi} \lim_{n \to \infty} \sqrt{\frac{n}{n^{2n+1}}} * (\frac{n}{e})^n = \sqrt{2 \pi} \lim_{n \to \infty} \sqrt{n^{1 - 2n - 1}} * (\frac{n}{e})^n = \sqrt{2 \pi} \lim_{n \to \infty} \sqrt{n^{-(2n + 2)}} * (\frac{n}{e})^n \\
+&= \sqrt{2 \pi} \lim_{n \to \infty} \sqrt{n^{-2(n + 1)}} * (\frac{n}{e})^n = \sqrt{2 \pi} \lim_{n \to \infty} n^{-(n + 1)} * (\frac{n}{e})^n = \sqrt{2 \pi} \lim_{n \to \infty} \frac{1}{n^{(n + 1)}} * (\frac{n}{e})^n = \sqrt{2 \pi} * 0 = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $f(n) \in O(k(n))$.}
+
+\item \textbf{Given that $g(n) \in O(f(n))$ and $h(n) \in O(f(n))$, we now test $g(n)$ \& $h(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{g(n)}{h(n)} = \lim_{n \to \infty} \frac{2^n}{2^{\frac{n}{3}}} = \lim_{n \to \infty} \frac{2^n}{(2^{\frac{1}{3}})^n} = \lim_{n \to \infty} (\frac{2}{2^{\frac{1}{3}}})^n = \lim_{n \to \infty} (2^{1 - \frac{1}{3}})^n = \lim_{n \to \infty} (2^{\frac{2}{3}})^n = \infty
+\end{align*}
+\item \textbf{Since $(L = \infty)$, then by the Limit Comparison Test $\to$ $g(n) \in \Omega(h(n))$, and thus $\to$ $h(n) \in O(g(n))$.}
+
+\item \textbf{Given that $g(n) \in O(f(n))$ and $w(n) \in O(f(n))$, we now test $g(n)$ \& $w(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{g(n)}{w(n)} = \lim_{n \to \infty} \frac{2^n}{2^{n - 2}} = \lim_{n \to \infty} \frac{2^n}{2^n * 2^{-2}} = \lim_{n \to \infty} \frac{1}{2^{-2}} = \lim_{n \to \infty} 2^2 = 4
+\end{align*}
+\item \textbf{Since $(0 < L < \infty)$, then by the Limit Comparison Test $\to$ $g(n) \in \Theta(w(n))$.}
+
+\item \textbf{Given that $g(n) \in O(f(n))$ and $k(n) \in O(f(n))$, we now test $g(n)$ \& $k(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{g(n)}{k(n)} = \lim_{n \to \infty} \frac{2^n}{\sqrt{n^{2n+1}}} = \lim_{n \to \infty} \frac{2^n}{\sqrt{n^{2n} * n}} = \lim_{n \to \infty} \frac{2^n}{n^n \sqrt{n}} = \lim_{n \to \infty} (\frac{2}{n})^n * \frac{1}{\sqrt{n}} = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $g(n) \in O(k(n))$.}
+
+\item \textbf{Given that $f(n) \in O(v(n))$ and $f(n) \in O(k(n))$, we now test $v(n)$ \& $k(n)$:}
+\begin{align*}
+L &= \lim_{n \to \infty} \frac{v(n)}{k(n)} = \lim_{n \to \infty} \frac{n^n}{\sqrt{n^{2n+1}}} = \lim_{n \to \infty} \frac{n^n}{\sqrt{n^{2n} * n}} = \lim_{n \to \infty} \frac{n^n}{n^n \sqrt{n}} = \lim_{n \to \infty} (\frac{n}{n})^n * \frac{1}{\sqrt{n}} = \lim_{n \to \infty} \frac{1}{\sqrt{n}} = 0
+\end{align*}
+\item \textbf{Since $(L = 0)$, then by the Limit Comparison Test $\to$ $v(n) \in O(k(n))$.}
+
+\item \textbf{Based on the above analysis we can conclude:}
+\begin{itemize}
+\item \textbf{$h(n)$ grows the slowest, slower than $f(n)$, $v(n)$, $w(n)$, $v(n)$ \& $k(n)$.}
+\item \textbf{$g(n)$ \& $w(n)$ grow faster than $h(n)$, but slower than $v(n)$, $f(n)$ \& $k(n)$.}
+\item \textbf{$f(n)$ grows the faster than $h(n)$, $g(n)$ \& $w(n)$, but slower than $k(n)$ \& $v(n)$.}
+\item \textbf{$v(n)$ faster than $h(n)$, $g(n)$, $w(n)$ \& $f(n)$, but slower than $k(n)$.}
+\item \textbf{$k(n)$ grows the fastest, faster than $h(n)$, $g(n)$, $w(n)$, $v(n)$ \& $f(n)$.}
+\end{itemize}
+\item \textbf{Thus the order of the functions from slowest to fastest growth rate is: $2^{\frac{n}{3}}$ $\to$ [$2^{n-2}, 2^n$] $\to$ $n!$ $\to$ $n^n$ $\to$ $\sqrt{n^{2n+1}}$.}
+
+        \end{proof}
+\end{enumerate}
+
+\end{required}
+
+\newpage
+\section{Standard 14- Analyzing Code I: (Independent nested loops)}
+\begin{required}
+
+
+Analyze the \textit{worst-case} runtime of the following algorithms. Clearly derive the runtime complexity function $T(n)$ for this algorithm, and then find a tight asymptotic bound for $T(n)$ (that is, find a function $f(n)$ such that $T(n) \in \Theta(f(n))$). Avoid heuristic arguments from 2270/2824 such as multiplying the complexities of nested loops.
+
+
+
+\begin{algorithm}
+\caption{Nested Algorithm 1}\label{alg:Nested2}
+\begin{algorithmic}[1]
+\Procedure{Foo2}{$\text{Integer } n$}
+\For{$i \gets 1; i \leq n; i \gets 2*i $}
+	\For{$j \gets 1; j \leq n; j \gets 2*j$}
+		\State \textbf{print} \text{``Hi"}
+	\EndFor
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\begin{proof}[Answer:] \
+
+\item \textbf{We begin with analyzing the $j-loop$:}
+\item At line $3$, the $j-loop$ takes $1$ step to initialize $j$ $\leftarrow$ $1$.
+\item The loop terminates when $1 + 2k > n$. Solving for $k$, we obtain that: $k > \ceil*{(n - 1)/2}$. As the loop takes at least one iteration to compare $i$ to $n$, we have that the loop takes $\ceil*{(n - 1)/2} + 1$ iterations.
+\item At each iteration, the loop does the following:
+\item \hspace*{10mm} The comparison $j \leq n$ takes $1$ step.
+\item \hspace*{10mm} The update $j \leftarrow 2*j$ takes $2$ steps: one step to evaluate $2*j$ and one step for the assignment.
+\item \hspace*{10mm} The body of the loop consists of a single $print$ statement, which takes $1$ step.
+\item So the runtime complexity of the j-loop is:
+\begin{align*}
+1 + \sum_{j=1}^{\ceil*{(n - 1)/2} + 1} (1 + 2 + 1) &= 1 +  \sum_{j=1}^{\ceil*{(n - 1)/2} + 1} 4 \\
+&= 1 + 4 * (\ceil*{(n - 1)/2} + 1) = 5 + 4(\ceil*{(n - 1)/2})
+\end{align*}
+
+\item \textbf{We now analyze the outer loop:}
+\item Initializing the outer loop takes $1$ step.
+\item The outer loop runs for $n$ iterations. At each iteration, the loop does the following;
+\item \hspace*{10mm} The comparison $i \leq n$ takes $1$ step.
+\item \hspace*{10mm} The update $i \leftarrow 2*i$ takes $2$ steps: one step to evaluate $2*i$ and one step for the assignment.
+\item \hspace*{10mm} The body the $i-loop$ consists solely of the $j-loop$.
+\item So the runtime complexity function is,
+\begin{align*}
+T(n) &= 1 + \sum_{j=1}^{n} (1 + 2 + 4 + 4[\ceil*{(n - 1)/2)}] \\
+&= 1 + \sum_{j=1}^{n} (8 + 4[\ceil*{(n - 1)/2)}] \\
+&=  1 + \sum_{j=1}^{n} 8 + \sum_{j=1}^{n} 4[\ceil*{(n - 1)/2)}] \\
+&=  1 + 8n + 4n[\ceil*{(n - 1)/2)}]
+\end{align*}
+
+\item Thus, $T(n) \in \Theta(n2)$.
+
+\end{proof}
+\end{required}
+
+\newpage
+\section{Standard 15- Analyzing Code II: (Dependent nested loops)}
+\begin{required}
+
+
+Analyze the \textit{worst-case} runtime of the following algorithms. Clearly derive the runtime complexity function $T(n)$ for this algorithm, and then find a tight asymptotic bound for $T(n)$ (that is, find a function $f(n)$ such that $T(n) \in \Theta(f(n))$). Avoid heuristic arguments from 2270/2824 such as multiplying the complexities of nested loops.
+
+
+\begin{algorithm}
+\caption{Nested Algorithm 2}\label{alg:NestedDependent1}
+\begin{algorithmic}[1]
+\Procedure{Boo1}{$\text{Integer } n$}
+\For{$i \gets 1; i \leq 2n; i \gets i+1$}
+	\For{$j \gets 1; j \leq i; j \gets j + 1$}
+		\State \textbf{print} \text{``Hi"}
+	\EndFor
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\end{required}
+
+\begin{proof}[Answer:] \
+
+\item \textbf{We begin with analyzing the $j-loop$:}
+\item The initialization of the loop takes $1$ step.
+\item Observe that the $j-loop$ takes $i$ iterations. At each iteration, the loop does the following;
+\item \hspace*{10mm} The comparison $j \leq n$ takes $1$ step.
+\item \hspace*{10mm} The update $j \leftarrow j + 1$ takes $2$ steps: one step to evaluate $j + 1$ and one step for the assignment.
+\item \hspace*{10mm} The body of the loop consists of a single $print$ statement, which takes $1$ step.
+\item So the runtime complexity of the j-loop is,
+\begin{align*}
+1 + \sum_{j=1}^{i} (1 + 2 + 1) &= 1 +  \sum_{j=1}^{i} 4 \\
+&= 1 + 4i
+\end{align*}
+
+\item \textbf{We now analyze the outer $i-loop$:}
+\item Initializing the outer loop takes $1$ step.
+\item The outer $i-loop$ takes $n$ iterations. At each iteration, the loop does the following;
+\item \hspace*{10mm} The comparison $i \leq n$ takes $1$ step.
+\item \hspace*{10mm} The update $i \leftarrow i + 1$ takes $2$ steps: one step to evaluate $i + 1$ and one step for the assignment.
+\item \hspace*{10mm} The body the $i-loop$ consists solely of the $j-loop$.
+\item So the runtime complexity function $T(n)$ is,
+\begin{align*}
+T(n) &= 1 + \sum_{j=1}^{n} [1 + 2 + (1 + 4i)]\\
+&= 1 + \sum_{j=1}^{n} (4 + 4i) \\
+&=  1 + \sum_{j=1}^{n} 4 + 4 * \sum_{j=1}^{n} \\
+&=  1 + 4n + 4 * [\frac{n(n + 1)}{2}]
+\end{align*}
+
+\item Thus, $T(n) \in \Theta(n2)$.
+
+\end{proof}
+
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT

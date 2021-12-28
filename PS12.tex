@@ -1,0 +1,291 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage{tkz-berge}
+\usetikzlibrary{positioning, automata, backgrounds}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+\usepackage{forest}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+\newcommand{\interval}[4]{\draw (#2, #1) -- (#3, #1); % Usage: \interval{height}{start}{end}{label}
+\draw (#2, #1-0.11) -- (#2, #1+0.11); % draw left whisker
+\draw (#3, #1-0.11) -- (#3, #1+0.11); % draw right whisker
+\node[] at (#2-0.25, #1) {#4};
+}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Problem Set 12 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill Dec / $8^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+Collaborators \dotfill \textbf{Me, Myself \& I}
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{must be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You are welcome and encouraged to collaborate with your classmates, as well as consult outside resources. You must \textbf{cite your sources in this document.} \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+\newpage
+\section{Standard 26- Computational Complexity: Formulating Decision Problems}
+
+\begin{required}
+Recall the \textsf{Maximum Bipartite Matching} problem from class, where we took as input a bipartite graph $G(L \dot \cup R, E)$ and asked for a maximum cardinality matching. Formulate the decision variant of this problem using the \textsf{Instance}/\textsf{Decision} format from class. [\textbf{Note:} See Example 172 of M. Levet's Lecture Notes.]
+\end{required}
+
+\begin{proof}[Answer:] \
+\begin{itemize}
+\item \textsf{Instance:} Let  $G(L \dot \cup R, E)$ be a bipartite graph, and $k \in \mathbb{N}$.
+\item \textsf{Decision:} Does there exist a Matching value $(k)$, of edges from graph G?
+\end{itemize}
+
+%Your answer
+\end{proof}
+
+
+\newpage
+\section{Standard 27- Computational Complexity: Problems in \textsf{P}}
+
+\begin{required}
+Consider the decision variant of the \textsf{Interval Scheduling} problem.
+\begin{itemize}
+\item \textsf{Instance:} Let $\mathcal{I} = \{ [s_{1}, f_{1}], \ldots, [s_{n}, f_{n}] \}$ be our set of intervals, and let $k \in \mathbb{N}$.
+
+\item \textsf{Decision:} Does there exist a set $S \subseteq \mathcal{I}$ of at least $k$ pairwise-disjoint intervals?
+\end{itemize}
+
+
+\noindent \\ Show that the decision variant of the \textsf{Interval Scheduling} problem belongs to $\textsf{P}$. You are welcome and encouraged to cite algorithms we have previously covered in class, including known facts about their runtime. [\textbf{Note:} To gauge the level of detail, we expect your solutions to this problem will be 2-4 sentences. We are not asking you to analyze an algorithm in great detail.]
+\end{required}
+ 
+
+\begin{proof}[Answer:] \
+\item The Greedy algorithm will first compute the maximum $size$ of the non-overlapping intervals and then check if $(size \geq k)$. Using \textbf{Quick-Sort} for sorting the intervals array, the algorithm takes $O(n^{2})$ time. Thus, a polynomial time algorithm for the decision problem exists, and therefore \textbf{Interval Scheduling} $ \in \textsf{P}$.
+
+%Your answer
+\end{proof}
+
+
+
+
+
+
+
+\newpage
+\section{Standard 28- Computational Complexity: Problems in \textsf{NP}}
+
+\begin{required}
+We consider an algebraic structure $Q = (S, \star)$, where $S$ is our set of elements and $\star : S \times S \to S$ is our ``multiplication'' operation. That is, for any $i, j \in S$, the product $i \star j \in S$. When $S$ is finite, we can write out its ``multiplication table'': the rows are indexed by the elements of $S$, the columns are indexed by the elements of $S$, and the entry in the $(i,j)$ position in the table is $i \star j$. We say that $(S, \star)$ is a \textit{quasigroup} if the multiplication table is a Latin square; that is, if each element of $S$ appears exactly once in each row and exactly once in each column. \\
+
+\noindent The \textsf{Latin Square Isotopy} problem is defined as follows.
+\begin{itemize}
+\item \textsf{Decision:} Let $Q_{1} = (S_{1}, \star)$ and $Q_{2} = (S_{2}, \diamond)$ be quasigroups, where $S_{1}, S_{2}$ are $n$-element sets. Suppose that $(S_{1}, \star)$ and $(S_{2}, \diamond)$ are given by their multiplication tables.
+
+\item \textsf{Decision:} Do there exist one-to-one functions $\alpha, \beta, \gamma : S_{1} \to S_{2}$ such that for all $x, y \in S$: 
+\[
+\alpha(x) \diamond \beta(y) = \gamma(x \star y).
+\]
+
+Here, $\alpha(x) \diamond \beta(y)$ is a product being considered in $Q_{2}$, while $x \star y$ is a product being considered in $Q_{1}$.
+\end{itemize}
+
+\noindent \\ Show that the $\textsf{Latin Square Isotopy}$ problem belongs to $\textsf{NP}$. \footnote{It remains open whether the \textsf{Latin Square Isotopy} problem is in $\textsf{P}$. The \textsf{Latin Square Isotopy} problem, as well as closely related algebraic problems such as \textsf{Group Isomorphism} in the multiplication table model, serve as key barriers for placing \textsf{Graph Isomorphism} into $\textsf{P}$. The best known algorithm for \textsf{Graph Isomorphism}, due to Babai in 2016, runs in time $n^{\Theta(\log^{2}(n))}$. Babai's algorithm combines combinatorial techniques such as color-refinement (Weisfeiler--Leman) and algebraic techniques (e.g., permutation group algorithms, the Classification of Finite Simple Groups). This is a very significant result. There has been considerable work on \textsf{Group Isomorphism} in the last 10 years. Isomorphism testing is an active area of research in our CS Theory group!}
+\end{required}
+
+
+\begin{proof}[Answer:] \
+\item We first need to show that each of the $\alpha$, $\beta$ and $\gamma$ functions are $one-to-one$ by verifying that every possible pair $(i,j) \in S_1$, $\alpha(i) \neq \alpha(j)$. This part of the process has a polynomial algorithm that will take $O(n^{2})$ time. Now we will need to verify that the given equality of $\alpha(x)$, $\beta(y)$, $\gamma(x,y)$ holds true. We note that this part of the process has a polynomial algorithm that will take $O(n^{3})$ time. Thus the \textbf{Latin Square Isotopy} $\in$ \textbf{NP}.
+
+
+%Your answer
+\end{proof}
+
+
+\newpage
+\section{Standard 30- Structure and Consequences of \textsf{P} vs. \textsf{NP}}
+
+\subsection{Problem \ref{S30Prob1}}
+\begin{required} \label{S30Prob1}
+A student has a decision problem $L$ which they know is in the class \textsf{NP}. This student wishes to show that L is \textsf{NP}-complete. They attempt to do so by constructing a polynomial time reduction from $L$ to \textsf{SAT}, a known \textsf{NP}-complete problem. That is, the student attempts to show that $L \leq_{p} \textsf{SAT}.$ Determine if this student’s approach is correct and justify your answer.
+\end{required}
+
+\begin{proof}[Answer:] \
+\item The student need to show the process of deducing a polynomial time reduction from \textbf{SAT} to \textbf{L}, in order to show that $(SAT \leq_p L)$. Thus the student's approach is \textbf{incorrect}.
+%Your answer
+\end{proof}
+
+
+
+\newpage
+\subsection{Problem \ref{S30Prob3}}
+
+\begin{required} \label{S30Prob3}
+The underlying model of computation used to define the complexity classes $\textsf{P}$ and $\textsf{NP}$ is the Turing Machine model. A Turing Machine can only read or write a single bit from memory at a given computation step. This will be the only fact about Turing Machines that we need. \\
+
+\noindent Now define the complexity class $\textsf{PSPACE}$ to be the set of languages $L$, where for a given string $x \in \Sigma^{*}$, there exists an algorithm (Turing Machine) $A$ and polynomial $p(n)$ (depending on $L$) such that:
+\begin{itemize}
+\item $A(x)$ uses at most $p(|x|)$ bits,
+\item $A(x) = 1$ if and only if $x \in L$, and
+\item $A(x) = 0$ if and only if $x \not \in L$.
+\end{itemize}
+
+\noindent \\ We will show that $\textsf{NP} \subseteq \textsf{PSPACE}$. The goal of this problem is to practice with the simulation technique.
+\end{required}
+
+\begin{enumerate}[label=(\alph*)]
+\item Suppose we have an algorithm (Turing Machine) that runs in time $T(n)$. Show that our algorithm uses at most $T(n)$ bits.
+
+\begin{proof}[Answer:] \
+\item If each time step can only read or write one bit, then the process takes at most $T(n)$ bits.
+%Your answer here.
+\end{proof}
+
+
+\vskip 15pt
+\item In light of part (a), explain why $\textsf{P} \subseteq \textsf{PSPACE}$. [\textbf{Note:} It is likely that your answer will only require a couple sentences.]
+
+\begin{proof}[Answer:] \
+\item If $T(n)$ is a polynomial, then we know that $T(n)$ takes at most $T(n)$ bits, as per part (A). Thus \textbf{P} $\in$ \textbf{PSPACE}.
+%Your answer here
+\end{proof}
+
+
+
+\vskip 15pt
+\item The \textsf{Hamiltonian Cycle} problem takes as input a simple, undirected graph $G$. We ask whether $G$ has a cycle that visits each vertex. It is well-known that the $\textsf{Hamiltonian Cycle}$ problem is $\textsf{NP}$-complete. Show that the \textsf{Hamiltonian Cycle} problem belongs to $\textsf{PSPACE}$. [\textbf{Hint:} It suffices to show that a brute-force approach can be computed using a polynomial amount of space in the number of vertices. Note that if our graph has $n$ vertices, then each vertex is represented using a binary string of length $\lceil \log_{2}(n) \rceil$.]
+
+\begin{proof}[Answer:] \
+\item First we will need to go through every possible permutation of the vertices to verify if there is a \textbf{Hamiltonian Cycle}. Going through the possible permutations will take $(n \log n)$ memory. Once a \textbf{Hamiltonian Cycle} is identified, we end the run and index it accordingly. If a \textbf{Hamiltonian Cycle} is not found, we delete the memory of permutation run and index it accordingly. Since there are $(n^{n})$ possible permutations, storing the indices of these permutations will take $(n \log n)$ memory. Thus the \textbf{Hamiltonian Cycle} $\subseteq$ \textbf{PSPACE}.
+%Your answer here.
+\end{proof}
+
+
+
+
+\vskip 15pt
+\item Here, we show that $\textsf{NP} \subseteq \textsf{PSPACE}$. Let $L \in \textsf{NP}$, and let $\omega \in \Sigma^{*}$ be an input string. We want to decide whether $\omega \in L$. In light of parts (b) and (c), give a \textsf{PSPACE} algorithm to decide whether $\omega \in L$. This establishes that $L \in \textsf{PSPACE}$, and so $\textsf{NP} \subseteq \textsf{PSPACE}$.  [\textbf{Hint:} Start by reducing $L$ to $\textsf{Hamiltonian Cycle}$ in polynomial-time. Is this reduction $\textsf{PSPACE}$-computable?]
+
+\begin{proof}[Answer:] \
+\item Since it is known that \textbf{Hamiltonian Cycle} is NP-Complete, there there exists a reduction of polynomial time from $L$ to the \textbf{Hamiltonian Cycle}, such that if $(\omega \in L)$ there exists a \textbf{Hamiltonian Cycle}, and if $(\omega \notin L)$ there is no \textbf{Hamiltonian Cycle}. Since it take a polynomial amount of time to compute the reduction, it takes a polynomial amount of bits from part (b). From part (c), we can see that the  \textbf{Hamiltonian Cycle} $\subseteq$ \textbf{PSPACE}. Therefore using this algorithm we will make a reduction from $L$ to \textbf{Hamiltonian Cycle} in order to show that $(Hamiltonian-Cycle \leq_p L)$. Since $L$ can be reduced into \textbf{Hamiltonian Cycle}, then $L$ $\subseteq$ \textbf{PSPACE}. Given $L$ is arbitrary, we can conclude that \textbf{NP} $\subseteq$ \textbf{PSPACE}.
+
+\end{proof}
+ 
+\end{enumerate}
+
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

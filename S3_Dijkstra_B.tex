@@ -1,0 +1,179 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructor: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Requizzing Period 1- Standard 3 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $11^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+
+\newpage
+\section{Standard Dijkstra}
+
+\subsection{Problem \ref{Dijkstra1}}
+\begin{required} \label{Dijkstra1}
+Suppose we are given a finite, connected, and weighted graph $G(V, E, w)$, where the edge weights are non-negative. We define the \emph{weight} of a path $P$ to be the \emph{product} (note: product, \emph{not} sum!) of the edge weights along $P$. Fix vertices $s, t$. Our goal is to find a minimum-weight path from $s$ to $t$. 
+
+\begin{enumerate}[label=(\alph*)]
+\item Suppose we construct a new graph $H(V, E, w^{\prime})$ that is identical to $G$, with the exception that $w^{\prime}((x, y)) = \log(w((x, y)))$ for all edges $(x,y)$. That is, $V(H) = V(G)$ and $E(H) = E(G)$. So we have the same underlying graph, with the only difference being the edge weights. You may take as fact that $P$ is a minimum-weight $s$ to $t$ path in $G$ if and only if $P$ is a shortest $s$ to $t$ path in $H$. \\
+
+\noindent Suppose now that we run Dijkstra's algorithm on $H$, in order to find a shortest path from $s$ to $t$ in $G$. Is this approach valid? Justify your reasoning.
+
+\begin{proof}[Answer:] \
+\item \textbf{No.} Since we are given a finite, connected, and weighted graph $G(V, E, w)$, where the edge weights are non-negative, and we assume $0$ is treated as a $non-negative$, we need to be concerned about any edges on $G$ having a weight equal to $0$, because any additional edge added to the path will be multiplied by $0$, causing the entire minimum-weight path $P$ from $s$ to $t$ to be equal to $0$ on $G$. Furthermore, we know that the new graph $H(V, E, w^{\prime})$ is identical to $G$, with the exception that $w^{\prime}((x, y)) = \log(w((x, y)))$ for all edges $(x,y)$. It is important to note that $(\log{0}) = -\infty$, and $(\log{1}) = 0$. Due to the fact that we define the \emph{weight} of a path $P$ to be the \emph{product} (note: product, \emph{not} sum!) of the edge weights along $P$. This means if there is a single edge weight set to $0$, $i.e.$ $w^{\prime}((x, y)) = \log(0) = -\infty$ ,or $1$ $i.e.$ $w^{\prime}((x, y)) = \log(1) = 0$, any additional edge added to the path could  be multiplied by $-\infty$ or $0$, and therefore causing the entire minimum-weight path $P$ from $s$ to $t$ to be equal to $-\infty$ or $0$ on $H$. This will create a conflict in the priority queuing of the algorithm, due to edge(s) with non-positive weight values in $G$ or $H$, and respectively being unable to identify the correct minimum-weight path from $s$ to $t$ on $H$ and as a result $G$ as well.
+%Your answer here
+\end{proof}
+
+\hskip 20pt
+\item Suppose now that the edge weights of $G$ are all positive. That is, $w((x, y)) > 0$ for all edges $(x, y) \in E(G)$. Let $H(V, E, w^{\prime})$ be the graph corresponding to $G$, as defined in part (a). Is it now a valid approach to run Dijkstra's algorithm on $H$, in order to find a shortest path from $s$ to $t$ in $G$? Justify your reasoning.
+
+\begin{proof}[Answer:] \
+\item \textbf{No.} We know that the new graph $H(V, E, w^{\prime})$ is identical to $G$, with the exception that $w^{\prime}((x, y)) = \log(w((x, y)))$ for all edges $(x,y)$. It is important to note that $(\log{1}) = 0$. Due to the fact that we define the \emph{weight} of a path $P$ to be the \emph{product} (note: product, \emph{not} sum!) of the edge weights along $P$. This means if there is a single edge weight set to $1$ $i.e.$ $w^{\prime}((x, y)) = \log(1) = 0$, any additional edge added to the path would be multiplied by $0$, and therefore causing the entire minimum-weight path $P$ from $s$ to $t$ to be equal to $0$ on $H$. This will create a conflict in the priority queuing of the algorithm, due to edge(s) with weight values = 0 in $H$, and respectively being unable to identify the correct minimum-weight path from $s$ to $t$ on $H$ and therefore $G$.
+%Your answer here
+\end{proof}
+
+
+\hskip 20pt
+\item Give conditions on the edge weights of $G$, so that it suffices to run Dijkstra's algorithm on $H$, in order to find a minimum-weight path from $s$ to $t$ in $G$. Clearly explain why your conditions are correct.
+
+\begin{proof}[Answer:] \
+\item \textbf{Since $\log$ is a continuous and strictly increasing function, set all the edges of $G$ to weight values $> 1$ $i.e.$ $w((x, y)) > 1$, and therefore all the edge weight values of $H$ will be $>$ 0 $i.e.$ $w^{\prime}((x, y)) > 0$.} This will avoid any additional edge added to the path to be multiplied by $0$, and therefore avoid  causing the entire minimum-weight path $P$ from $s$ to $t$ to be $\leq 0$ on $H$ or $= 0$ on $G$. Thus, avoiding the issues we faced in parts (a) and (b), where we faced a conflict in the priority queuing of the algorithm, due to edge(s) with non-positive weight values in $H$, and respectively being unable to identify the correct minimum-weight path from $s$ to $t$ on $H$ and $G$.
+%Your answer here
+\end{proof}
+
+\end{enumerate}
+
+\end{required}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

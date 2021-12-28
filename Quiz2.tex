@@ -1,0 +1,298 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+% \usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Quiz 2 - BFS/DFS \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill Sep/17/2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item Any collaborations and external sources have been clearly cited in this document.
+\item I have not posted to external services including, but not limited to Chegg, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+\newpage
+\section{Standard 2- BFS/DFS}
+
+\subsection{Problem \ref{dfs1}}
+\begin{required} \label{dfs1}
+A \emph{simple $s \to t$ path} in a graph $G$ is a path in $G$ starting at $s$, ending at $t$, and never visiting the same vertex twice. Using the graph $G(V,E)$ below and vertices $S,T \in V(G)$, find an $s \to t$ that (i) DFS traverses, and (ii) is neither a shortest path nor a longest simple path. Detail the execution of DFS (list the contents of the stack at each step, and which vertex it pops off the queue). Additionally, show (i) the final $s \to t$ path it finds, (ii) show a shorter $s \to t$ path, and (iii) a longer simple $s \to t$ path.
+
+
+\begin{center}
+\begin {tikzpicture}[semithick]
+\tikzstyle{blue}=[circle ,top color =white , bottom color = processblue!20 ,draw,processblue , text=blue , minimum width =1 cm];
+\tikzstyle{red}=[circle ,top color =white , bottom color = processred!20 ,draw, processred , text=blue , minimum width =1 cm];
+\tikzstyle{green}=[circle ,top color =white , bottom color = processgreen!20 ,draw, processgreen , text=blue , minimum width =1 cm];
+
+	\node[blue] (A) {$s$};
+	\node[blue] (B) [above right = of A] {$b$};
+	\node[blue] (C) [below right = of A] {$c$};
+	\node[blue] (D) [right = of B] {$d$};
+	\node[blue] (E) [right = of C] {$e$};
+	\node[blue] (H) [right = of E] {$f$};
+	\node[blue] (F) [below right = of D] {$t$};
+	\node[blue] (G) [right = of A] {$h$}; 
+
+	\path (A) edge (B);
+	\path (A) edge (G);
+	\path (G) edge (F);
+	\draw (A) edge (C);
+	\path (B) edge (D);
+	\path (C) edge (E);
+	\path (D) edge (F);
+	\draw (E) edge (H);
+	\draw (H) edge (F);
+	\end{tikzpicture}  
+\end{center}
+\end{required}
+
+
+% Either type your answer in below, or uncomment the \includegraphics command
+% and use it to insert an approprate image. Try experimenting with the scale 
+% 0.9 the width option to resize your image if necessary.
+
+%\includegraphics[width=0.9\textwidth]{solution.jpg}
+
+\begin{proof}[Answer:]
+\item \textbf{Given the edges are not weighted, we will depend on the number of edges traversed from ($s \to t$) to measure each path's length.}
+\\ \\
+\item \textbf{(a) Shortest Path}
+\\ \item $\textcolor{blue}s \to h \to \textcolor{red}t$ $=$ \textbf{[2 Edges]}
+\begin{center}
+\begin {tikzpicture}[semithick]
+\tikzstyle{blue}=[circle ,top color =white , bottom color = processblue!20 ,draw,processblue , text=blue , minimum width =1 cm];
+\tikzstyle{red}=[circle ,top color =white , bottom color = processred!20 ,draw, processred , text=blue , minimum width =1 cm];
+\tikzstyle{green}=[circle ,top color =white , bottom color = processgreen!20 ,draw, processgreen , text=blue , minimum width =1 cm];
+
+	\node[blue] [line width=3pt] (A) {$s$};
+	\node[blue] (B) [above right = of A] {$b$};
+	\node[blue] (C) [below right = of A] {$c$};
+	\node[blue] (D) [right = of B] {$d$};
+	\node[blue] (E) [right = of C] {$e$};
+	\node[blue] (H) [right = of E] {$f$};
+	\node[red] [line width=3pt] (F) [below right = of D] {$t$};
+	\node[blue] (G) [right = of A] {$h$}; 
+
+	\path (A) edge (B);
+	\path[blue] [line width=3pt] (A) edge (G);
+	\path[blue] [line width=3pt] (G) edge (F);
+	\draw (A) edge (C);
+	\path (B) edge (D);
+	\path (C) edge (E);
+	\path (D) edge (F);
+	\draw (E) edge (H);
+	\draw (H) edge (F);
+	\end{tikzpicture}  
+\end{center}
+
+\item \textbf{(b) Longest Simple Path}
+\\ \item $\textcolor{blue}s \to c \to e \to f \to \textcolor{red}t$ $=$ \textbf{[4 Edges]}
+\begin{center}
+\begin {tikzpicture}[semithick]
+\tikzstyle{blue}=[circle ,top color =white , bottom color = processblue!20 ,draw,processblue , text=blue , minimum width =1 cm];
+\tikzstyle{red}=[circle ,top color =white , bottom color = processred!20 ,draw, processred , text=blue , minimum width =1 cm];
+\tikzstyle{green}=[circle ,top color =white , bottom color = processgreen!20 ,draw, processgreen , text=blue , minimum width =1 cm];
+
+	\node[blue] [line width=3pt] (A) {$s$};
+	\node[blue] (B) [above right = of A] {$b$};
+	\node[blue] (C) [below right = of A] {$c$};
+	\node[blue] (D) [right = of B] {$d$};
+	\node[blue] (E) [right = of C] {$e$};
+	\node[blue] (H) [right = of E] {$f$};
+	\node[red] [line width=3pt] (F) [below right = of D] {$t$};
+	\node[blue] (G) [right = of A] {$h$}; 
+
+	\path (A) edge (B);
+	\path (A) edge (G);
+	\path (G) edge (F);
+	\draw[blue] [line width=3pt] (A) edge (C);
+	\path (B) edge (D);
+	\path[blue] [line width=3pt] (C) edge (E);
+	\path (D) edge (F);
+	\draw[blue] [line width=3pt] (E) edge (H);
+	\draw[blue] [line width=3pt] (H) edge (F);
+	\end{tikzpicture}  
+\end{center}
+
+\pagebreak
+\item \textbf{(c) DFS} \{Different from parts (a) \& (b)\}
+\\ \item $\textcolor{blue}s \to b \to d \to \textcolor{red}t$ $=$ \textbf{[3 Edges]}
+
+\begin{center}
+\begin {tikzpicture}[semithick]
+\tikzstyle{blue}=[circle ,top color =white , bottom color = processblue!20 ,draw,processblue , text=blue , minimum width =1 cm];
+\tikzstyle{red}=[circle ,top color =white , bottom color = processred!20 ,draw, processred , text=blue , minimum width =1 cm];
+\tikzstyle{green}=[circle ,top color =white , bottom color = processgreen!20 ,draw, processgreen , text=blue , minimum width =1 cm];
+
+	\node[blue] [line width=3pt] (A) {$s$};
+	\node[blue] (B) [above right = of A] {$b$};
+	\node[blue] (C) [below right = of A] {$c$};
+	\node[blue] (D) [right = of B] {$d$};
+	\node[blue] (E) [right = of C] {$e$};
+	\node[blue] (H) [right = of E] {$f$};
+	\node[red] [line width=3pt] (F) [below right = of D] {$t$};
+	\node[blue] (G) [right = of A] {$h$}; 
+
+	\path[blue] [line width=3pt] (A) edge (B);
+	\path (A) edge (G);
+	\path (G) edge (F);
+	\draw (A) edge (C);
+	\path[blue] [line width=3pt] (B) edge (D);
+	\path (C) edge (E);
+	\path[blue] [line width=3pt] (D) edge (F);
+	\draw (E) edge (H);
+	\draw (H) edge (F);
+	\end{tikzpicture}  
+\end{center}
+
+\item \textbf{Priority Queue:}
+\\
+\item \textbf{[Longest Path = 4 Edges]}
+\item	\hspace*{10mm} Queue (s), then (c), then (e), then (f), then (t).
+\item	\hspace*{20mm} (b) $\textcolor{blue}s \to c \to e \to f \to \textcolor{red}t$ 
+\item	\hspace*{30mm} Pop (t), then (f), then (e), then (c).
+\\
+\item \textbf{[Neither Longest nor Shortest Path (DFS) = 3 Edges]}
+\item	\hspace*{10mm} Queue (s), then (b), then (d), then (t).
+\item	\hspace*{20mm} (c) $\textcolor{blue}s \to b \to d \to \textcolor{red}t$ 
+\item	\hspace*{30mm} Pop (t), then (d), then (b).
+\\
+\item \textbf{[Shortest Path = 2 Edges]}
+\item	\hspace*{10mm} Queue (s), then (h), then (t).
+\item	\hspace*{20mm} (a) $\textcolor{blue}s \to h \to \textcolor{red}t$ 
+\item	\hspace*{30mm} Pop (t), then (h), then (s).
+\\ \\
+\item \textbf{Conclusion:} DFS starts at point (s), it can then move to node (c), (h), or (b). Assuming it moves to node (c) first, it will continue on the path passing through nodes (e) \& (f) before it gets to node (t). However, if it moves to node (h) first, it will continue straight to node (t). Furthermore, if it moves to node (b) first, it will continue on the path passing through nodes (d) before it gets to node (t). In a normal situation (i.e. without the current SP \& SLP conditions), DFS would be identical to the shortest path in part (a). Though given the specifics of this problem, DFS will ignore the shortest path in part (a) and and choose the path highlighted in part (c).
+\end{proof}
+
+
+%Include an Image: \includegraphics{ImageFileName}
+%Include an Image and Rotate 90 degree: \includegraphics[angle=90]{ImageFileName}
+%Include an Image, Rotate by 180 degrees, and scale by 50\% \includegraphics[scale=0.5, angle=90]{ImageFileName}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

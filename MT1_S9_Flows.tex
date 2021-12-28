@@ -1,0 +1,236 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Midterm 1- Standard 9 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.gif}
+\DeclareGraphicsExtensions{.jpg}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $11^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+\newpage
+\section{Standard 9- Network Flows: Terminology}
+
+\begin{required}
+Consider the following flow network, with the following flow configuration $f$ as indicated below. For each question, use the flow $f$.
+\begin{center}
+	\begin {tikzpicture}[-latex ,auto ,node distance =2 cm and 3cm ,on grid ,
+	semithick ,
+	state/.style ={ circle ,top color =white , bottom color = processblue!20 ,
+	draw,processblue , text=blue , minimum width =1 cm}]
+
+	\node[state] (A) {$s$};
+	\node[state] (B) [above right = of A] {$B$};
+	\node[state] (C) [below right = of A] {$C$};
+	\node[state] (D) [right = of B] {$D$};
+	\node[state] (E) [right = of C] {$E$};
+	\node[state] (F) [below right = of D] {$t$};
+	
+	\path (A) edge node[above] {$3 / 7$} (B);
+	\path (A) edge node[above] {$3 / 6$} (C);
+	\path (B) edge node[left] {$2 / 4$} (C);
+	\path (B) edge node[above] {$3 / 4$} (D);
+	\path (E) edge node[right] {$2 /  5$} (B);
+	\path (C) edge node[above] {$5 / 9$} (E);
+	\path (E) edge node[right] {$0 / 3$} (D);
+	\path (D) edge node[above] {$3 / 10$} (F);
+	\path (E) edge node[above] {$3 / 5$} (F);
+	
+	\end{tikzpicture}  
+\end{center}
+
+\noindent Do the following.
+\begin{enumerate}[label=(\alph*)]
+\item What is the maximum \textit{additional} amount of flow that we can push across the edge $(C, E)$ from $C \to E$? Do not consider where this flow would come from nor where it would go to, just how much additional flow $C$ can push to $E$. Justify using 1-2 sentences.
+
+\begin{proof}[Answer:] \
+
+\item \textbf{The flow capacity, $c(C, E) = 9$, and the maximum $additional$ amount of flow that we can push across the edge $E(C, E)$ from $C \to E$ = $(Flow Capacity - Current Flow) = 9 - 5 = 4$. Thus, the total $additional$ amount of flow we can push across the edge $E(C, E)$ from $C \to E$ = \color{red}$4-Units$\color{black}.}
+
+\end{proof}
+
+
+\item What is the maximum amount of flow that $C$ can push backwards to $B$? Do \textbf{not} consider whether $B$ can reroute that flow elsewhere; just whether $C$ can push flow backwards. Justify using 1-2 sentences.
+
+\begin{proof}[Answer:] \
+
+\item \textbf{The back-flow capacity of $E(B, C)$ = $(Current Flow)$ of $E(B, C)$ = $2$. Thus we can push $2-Units$ back through $E(B, C)$. The maximum amount of flow that we can push back across the edge $E(B, C)$ from $C \to B$ = \color{red}$2-Units$\color{black}.}
+
+\end{proof}
+
+
+\item What is the maximum amount of flow that $D$ can push backwards to $E$? Do \textbf{not} consider whether $E$ can reroute that flow elsewhere; just whether $D$ can push flow backwards. Justify using 1-2 sentences.
+
+\begin{proof}[Answer:] \
+
+\item \textbf{The back-flow capacity of $E(E, D)$ = $(Current Flow)$ of $E(E, D)$ = $0$. Thus we can not push any $Units$ back through $E(E, D)$. The maximum amount of flow that we can push back across the edge $E(E, D)$ from $D \to E$ = \color{red}$0-Units$\color{black}.}
+
+\end{proof}
+
+
+\item How much flow can be pushed along the flow-augmenting path $s \to B \to C \to E \to D \to t$? Justify using 1-2 sentences.
+
+\begin{proof}[Answer:] \
+
+\begin{itemize}
+\item \textbf{The flow capacity, $c(s, B) = 7$, and the maximum $additional$ amount of flow that we can push across the edge  $E(s, B)$ from $s \to B$ = $(Flow Capacity - Current Flow) = 7 - 3 = 4$. Thus, the $additional$ amount of flow we can push across the edge $E(s, B)$ from $s \to B$ = $4-Units$.}
+\item \textbf{The flow capacity, $c(B, C) = 4$, and the maximum $additional$ amount of flow that we can push across the edge  $E(B, C)$ from $B \to C$ = $(Flow Capacity - Current Flow) = 4 - 2 = 2$. Thus, the $additional$ amount of flow we could continue to push, across the edge $E(B, C)$ from $B \to C$ = $2-Units$.}
+\item \textbf{The flow capacity, $c(C, E) = 9$, and the maximum $additional$ amount of flow that we can push across the edge  $E(C, E)$ from $C \to E$ = $(Flow Capacity - Current Flow) = 9 - 5 = 4$. Thus, the $additional$ amount of flow we could continue to push, across the edge $E(C, E)$ from $C \to E$ = $2-Units$.}
+\item \textbf{The flow capacity, $c(E, D) = 3$, and the maximum $additional$ amount of flow that we can push across the edge  $E(E, D)$ from $E \to D$ = $(Flow Capacity - Current Flow) = 3 - 0 = 3$. Thus, the $additional$ amount of flow we could continue to push, across the edge $E(E, D)$ from $E \to D$ = $2-Units$.}
+\item \textbf{The flow capacity, $c(D, t) = 10$, and the maximum $additional$ amount of flow that we can push across the edge  $E(D, t)$ from $D \to t$ = $(Flow Capacity - Current Flow) = 10 - 3 = 7$. Thus, the $additional$ amount of flow we could continue to push, across the edge $E(D, t)$ from $D \to t$ = $2-Units$.}
+\end{itemize}
+\item \textbf{Since the $additional$ amount of flow we can push from $D \to t$ = $2-Units$, the total $additional$ amount of flow we can push across the $flow-augmenting$ path $s \to B \to C \to E \to D \to t$ = \color{red}$2-Units$\color{black}.}
+
+\end{proof}
+
+
+\item Find a second flow-augmenting path and indicate the maximum amount of additional flow that can be pushed along the path. Assume that the flow-augmenting path from part (d) has \textbf{not} been applied. Justify using 1-2 sentences.
+
+\begin{proof}[Answer:] \
+
+\begin{itemize}
+\item \textbf{The flow capacity, $c(s, C) = 6$, and the maximum $additional$ amount of flow that we can push across the edge  $E(s, C)$ from $s \to C$ = $(Flow Capacity - Current Flow) = 6 - 3 = 3$. Thus, the $additional$ amount of flow we can push across the edge $E(s, C)$ from $s \to C$ = $3-Units$.}
+\item \textbf{The flow capacity, $c(C, E) = 9$, and the maximum $additional$ amount of flow that we can push across the edge  $E(C, E)$ from $C \to E$ = $(Flow Capacity - Current Flow) = 9 - 5 = 4$. Thus, the $additional$ amount of flow we could continue to push, across the edge $E(C, E)$ from $C \to E$ = $3-Units$.}
+\item \textbf{The flow capacity, $c(E, D) = 3$, and the maximum $additional$ amount of flow that we can push across the edge  $E(E, D)$ from $E \to D$ = $(Flow Capacity - Current Flow) = 3 - 0 = 3$. Thus, the $additional$ amount of flow we could continue to push, across the edge $E(E, D)$ from $E \to D$ = $3-Units$.}
+\item \textbf{The flow capacity, $c(D, t) = 10$, and the maximum $additional$ amount of flow that we can push across the edge  $E(D, t)$ from $D \to t$ = $(Flow Capacity - Current Flow) = 10 - 3 = 7$. Thus, the $additional$ amount of flow we could continue to push, across the edge $E(D, t)$ from $D \to t$ = $3-Units$.}
+\end{itemize}
+\item \textbf{Since the maximum $additional$ amount of flow we can push between any 2 vertices through any edge $E(G)$ across $s \to C \to E \to D \to t$ is $(3)$, the total $additional$ amount of flow we can push across the $flow-augmenting$ path $s \to C \to E \to D \to t$ = $3-Units$. Thus our new $flow-augmenting$ path \color{red}$(f^{*})$ = $s \to C \to E \to D \to t$\color{black}, with \color{red}$val(f^{*})$ = $|f^{*}|$ $=$ $(3)$\color{black}.}
+
+
+\end{proof}
+\end{enumerate}
+\end{required}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

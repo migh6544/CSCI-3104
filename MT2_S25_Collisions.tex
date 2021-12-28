@@ -1,0 +1,228 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+\tikzset{
+	vertex/.style={circle,draw,minimum size=16, inner sep=0pt,font=\normalsize},
+	every node/.style={draw=none,rectangle,font=\scriptsize,outer sep=0pt,inner sep=2pt},
+	directed/.style={arrows={-Stealth[length=7pt]},font=\small},
+	caption/.style={text width=6cm,align=center,rectangle,draw}
+}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Midterm 2- Standard 25 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.gif}
+\DeclareGraphicsExtensions{.jpg}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill Nov / $18^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+\newpage
+\section{Standard 25- Hashing and Collisions}
+\begin{required}
+Consider a hash table designed to store integers, using the hash function $h(k)=k~mod~3$ for all keys $k$ for a table of size 3. (Resolve collisions by chaining with a linked list.) You have three scenarios: 
+\begin{itemize}
+\item Scenario 1: keys are randomly drawn from integers that are divisible by 3.
+
+\item Scenario 2: keys are randomly drawn from integers of the form $3m+1$ where $m$ is an integer.
+
+\item Scenario 3: keys are randomly drawn from \emph{all} integers
+\end{itemize}
+
+
+\noindent \\ Do the following.
+\begin{enumerate}[label=(\alph*)]
+\item For which scenario does the hash function $h(k)$ perform better? Please  {\bf explain/justify} your answer.
+
+
+\begin{proof}[Answer:] \
+\begin{itemize}
+\item \textbf{Scenario 1:} If keys are randomly drawn from integers that are divisible by 3, then we are only using index (0) in the hash-table. Thus we have $\Theta(1 + \frac{n}{1}) = \Theta(1 + n)$ \\
+\item \textbf{Scenario 2:} If keys are randomly drawn from integers of the form 3m + 1, where m is an integer, then we are only using index (1) in the hash-table. Thus we have $\Theta(1 + \frac{n}{1}) = \Theta(1 + n)$ \\
+\item \textbf{Scenario 3:} If keys are randomly drawn from all integers, then we are using all three indices (0, 1, 2) in the hash-table. Thus we have $\Theta(1 + \frac{n}{3})$ \\
+\end{itemize}
+\item \textbf{$(1 + \frac{n}{3}) \in O(1 + n) \to$ Thus scenario 3 performs best since it has the smallest $load$ $factor$.}
+%Your answer here
+\end{proof}
+
+\newpage
+
+\item In each of the three applications, does the hash function $h(k)$ satisfy the uniform hashing property? Please {\bf explain/justify} your answer.
+
+\begin{proof}[Answer:] \
+\item \textbf{Yes, as it satisfies the the following two conditions of $Simple$ $Uniform$ $Hashing$ $Assumptions$:}
+\begin{itemize}
+\item For any key $k$ and any index $i \in \{0, 1, 2\}$ $Pr[h(k) = i] = 1/3$. That is, the probability that h(x) maps the element k into position i is 1/m.
+\item For any two keys $k_1, k_2$ and any index $i$, $Pr[h(k_1) = i]$ and $Pr[h(k_2) = i]$ are independent. As for any key $k$ $\{Pr[h(k) = i] = \frac{1}{3}\}$ independently.
+\end{itemize}
+%Your answer here
+\end{proof}
+
+\newpage
+
+\item Suppose you have $n$ keys in total for each application. What is the resulting load factor for each application?
+
+\begin{proof}[Answer:] \
+\begin{itemize}
+\item \textbf{Scenario 1:} Load factor $\alpha = \frac{n}{1} = n$ \\
+\item \textbf{Scenario 2:} Load factor $\alpha = \frac{n}{1} = n$ \\
+\item \textbf{Scenario 3:} Load factor $\alpha = \frac{n}{3}$ \\
+\end{itemize}
+%Your answer here
+\end{proof}
+
+\newpage
+
+\item Suppose you have $n$ keys in total for each application. What are the time complexities of the dictionary operations: add, delete, and find, respectively?
+
+\begin{proof}[Answer:] \
+\item \textbf{Scenario 1:} Add $\Theta(1)$, Delete $\Theta(n)$, and Find $\Theta(n)$. \\
+\item \textbf{Scenario 2:} Add $\Theta(1)$, Delete $\Theta(n)$, and Find $\Theta(n)$. \\
+\item \textbf{Scenario 3:} Add $\Theta(1)$, Delete $\Theta(\frac{n}{3})$, and Find $\Theta(\frac{n}{3})$. \\
+%Your answer here
+\end{proof}
+
+\end{enumerate}
+\end{required}
+
+
+
+
+%Include an Image: \includegraphics{ImageFileName}
+%Include an Image and Rotate 90 degree: \includegraphics[angle=90]{ImageFileName}
+%Include an Image, Rotate by 180 degrees, and scale by 50\% \includegraphics[scale=0.5, angle=90]{ImageFileName}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

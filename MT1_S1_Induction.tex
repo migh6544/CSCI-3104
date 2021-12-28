@@ -1,0 +1,201 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Midterm 1- Standard 1 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October /$11^{th}$/ 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+
+\newpage
+\section{Standard 1- Proof by Induction}
+
+\subsection{Problem \ref{Induction1}}
+\begin{required} \label{Induction1}
+Prove by induction that for any integer $n \geq 1$, we have that:
+\[
+\prod_{k=1}^{n} \left( 1 + \frac{1}{\sqrt{k}} \right) \leq 2^{n}
+\]
+\end{required}
+
+% Either type your answer in below, or uncomment the \includegraphics command
+% and use it to insert an approprate image. Try experimenting with the scale 
+% 0.9 the width option to resize your image if necessary.
+
+%\includegraphics[width=0.9\textwidth]{solution.jpg}
+
+\begin{proof} We proceed by induction on $n \geq 1$: \
+\begin{itemize}
+
+\item \textbf{Base Case:}
+\\ When $(n = 1)$
+\[
+\prod_{k=1}^{1} \left( 1 + \frac{1}{\sqrt{1}} \right) \leq 2^{1}
+\]
+\begin{align*}
+&= (1)*( 1 + 1) \leq 2 \\
+&= 2 \leq 2.
+\end{align*}
+Thus the base cases of $n = 1$ holds true.
+
+\item \textbf{Inductive Hypothesis:} Fix $k \geq 1$, and suppose
+\[
+\prod_{m=1}^{k} \left( 1 + \frac{1}{\sqrt{m}} \right) \leq 2^{k}
+\]
+
+\item \textbf{Inductive Step:} We now consider the $(k+1)$ case. We will assume
+\[
+\prod_{m=1}^{k} \left( 1 + \frac{1}{\sqrt{m}} \right) \leq 2^{k}
+\]
+holds true in order to show that
+\[
+\prod_{m=1}^{k+1} \left( 1 + \frac{1}{\sqrt{m}} \right) \leq 2^{k+1}
+\]
+also is true. Thus, we have: \\
+\[
+\prod_{m=1}^{k+1} \left( 1 + \frac{1}{\sqrt{m}} \right)
+\]
+Let $(m=1)$ = (s). \\
+\\ We can note that $2 = ( 1 + \frac{1}{\sqrt{1}}) = ( 1 + \frac{1}{\sqrt{s}}) \geq ( 1 + \frac{1}{\sqrt{s+1}}) \geq ..... \geq ( 1 + \frac{1}{\sqrt{k}}) \geq ( 1 + \frac{1}{\sqrt{k+1}})$. \\
+\\ Therefore, $[( 1 + \frac{1}{\sqrt{m}}) * ( 1 + \frac{1}{\sqrt{m+1}}) * ..... * ( 1 + \frac{1}{\sqrt{k}}) * ( 1 + \frac{1}{\sqrt{k+1}})] \leq [(2*2)$ "k+1" times]. \\
+\\ When $(m = 1)$, the internal argument is equal to 2. As $(m)$ increases, the value of each internal argument is increasingly reduced to a value that is further less than 2 due to the denomenatror increasing in value higher than the constant numerator. Accordingly, the multiplication of these decreasing values until $(m = k+1)$ yields a product that is less in value than the product of 2 multiplied by itself $(k+1)$ times. \\
+\\ As desired, we can see that 
+\[
+\prod_{m=1}^{k+1} \left( 1 + \frac{1}{\sqrt{m}} \right) \leq 2^{k+1}
+\]
+\textbf{Conclusion:} The formula holds true for all $k \geq 1$. \\
+The result follows by induction.
+\end{itemize}
+
+%If you choose to type your answer, you may place your answer here.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

@@ -1,0 +1,167 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructor: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Requizzing Period 1- Standard 5 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $11^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+
+\newpage
+\section{Standard 5- Exchange Arguments}
+\subsection{Problem \ref{DFS1}}
+\begin{required} \label{DFS1}
+Consider the interval scheduling problem from class. You are given a set of intervals $\mathcal{I}$, where each interval has a start and finish time $[s_i, f_i]$. Your goal is to select a subset $S$ of the given intervals such that (i) no two intervals in $S$ overlap, and (ii) $S$ contains as many intervals as possible subject to condition (i). 
+
+Suppose we have two intervals with the same start time but different finish times. That is, let $I_{1} = [s, f_{1}]$ and $I_{2} = [s, f_{2}]$ with $f_{2} > f_{1}$. 
+\begin{enumerate}[label=(\alph*)]
+\item Let $\text{overlap}([s, f])$ denote the number of intervals of $\mathcal{I}$ (excluding $[s, f]$) with which $[s, f]$ overlaps. Explain carefully why $\text{overlap}(I_{1}) \leq \text{overlap}(I_{2})$.
+\begin{proof}[Answer:] \
+\item \textbf{This is due to the fact that any additional interval(s) will either overlap both $I_{1}$ and $I_{2}$, only $I_{2}$, or neither. Our reasoning is as follows:} \\ \\
+Given that $I_{1} = [s, f_{1}]$ and $I_{2} = [s, f_{2}]$, with $f_{2} > f_{1}$, means that $I_{1}$ is the first interval with the earliest end-time. Any additional interval(s) will either start at the same time as $I_{1}$ and $I_{2}$ $(s$), before the end-time of $I_{1}$ ($f_{1}$) and therefore before the end-time of $I_{2}$ ($f_{2}$) as well, after the end-time of $I_{1}$ ($f_{1}$) but before the end-time of $I_{2}$ ($f_{2}$), or after the end-time of $I_{2}$ ($f_{2}$) and therefore after the end-time of $I_{1}$ ($f_{1}$) too. If the additional interval(s) starts at the same time as $I_{1}$ and $I_{2}$ $(s$), or before the end-time of $I_{1}$ ($f_{1}$) and therefore before the end-time of $I_{2}$ ($f_{2}$) as well, then it would overlap with $I_{1}$ and $I_{2}$. If the additional interval(s) starts after the end-time of $I_{1}$ ($f_{1}$) yet before the end-time of $I_{2}$ ($f_{2}$), then it would only overlap with $I_{2}$. Though if the additional interval(s) starts after the end-time of $I_{1}$ ($f_{1}$) and 
+the end-time of $I_{2}$ ($f_{2}$), then it would not overlap with $I_{1}$ or $I_{2}$. Thus, $\text{overlap}(I_{1})$ will always be either less or equal to $\text{overlap}(I_{2})$.
+%Your answer here
+\end{proof}
+
+
+\vskip 50pt
+\item Suppose that $\text{overlap}(I_{1}) < \text{overlap}(I_{2})$. Explain carefully why $I_{2}$ can safely be exchanged for $I_{1}$ (that is, in any non-overlapping set of intervals containing $I_2$, replacing $I_2$ by $I_1$ always results in another non-overlapping set of intervals, no smaller than the one we started with).
+\begin{proof}[Answer:] \
+\item \textbf{Following our reasoning in part (a) we proceed. Accordingly, while $I_{2}$ overlaps $I_{1}$, excluding $I_{1}$ and $I_{2}$, there is an additional equal number of intervals that do not overlap with $I_{1}$, as there are intervals that do not overlap with $I_{2}$. Yet, each interval in the set of intervals that do not overlap $I_{1}$, overlaps with one interval in the set of intervals that do not overlap with $I_{2}$. Our reasoning is as follows:} \\ \\
+Excluding $I_{1}$ and $I_{2}$, let $A$ be the set of intervals ${1,...,n}$ that do not overlap with $I_{1}$, and let $B$ be the set of intervals ${1,...,n}$ that do not overlap with $I_{2}$. The first interval ($A_{1}$) in $A$ will overlap with the first interval in $B$ ($B_{1}$), and all the way through, the $n^{th}$ interval ($A_{n}$) in $A$ will overlap with the $n^{th}$ interval in $B$ ($B_{n}$). Therefore, replacing $I_{2}$ by $I_{1}$, will always result in a set with the same number of non-overlapping intervals respectively to $I_{1}$ and $I_{2}$. Thus, while $I_{2}$ overlaps $I_{1}$ causing $\text{overlap}(I_{1}) < \text{overlap}(I_{2})$, $|A|$ will always be equal to $|B|$, so replacing $I_2$ by $I_1$ always results in another non-overlapping set of intervals, no smaller than the one we started with.
+%Your answer here
+\end{proof}
+\end{enumerate}
+\end{required}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

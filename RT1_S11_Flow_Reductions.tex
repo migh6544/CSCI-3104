@@ -1,0 +1,220 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Retake Token Quiz- Standard 11 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.gif}
+\DeclareGraphicsExtensions{.jpg}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill Dec / $9^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+\tikzset{>={Stealth[length=7pt]}}
+\tikzset{
+    vertex/.style={circle,draw,minimum size=16,inner sep=0pt,font=\normalsize},
+    edgelabel/.style={rectangle,draw=none,font=\footnotesize,outer sep=0pt},
+    every node/.style={vertex},
+    every edge quotes/.append style={edgelabel},
+    every to/.append style={every node/.style={edgelabel}},
+    wide/.style={line width=4pt,>={Stealth[length=18pt]}},
+    directed/.style={arrows={->},font=\small},
+    }
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item Any collaborations and external sources have been clearly cited in this document.
+\item I have not posted to external services including, but not limited to Chegg, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+
+
+\newpage
+\section{Standard 11- Network Flows: Reductions}
+
+\begin{required} \label{Problem2}
+In this problem we consider a new idea for reducing from the problem of finding a maximum matching in a unweighted, undirected bipartite graph to the problem of finding a maximum $(s,t)$-flow in a flow network.
+Let $G = (L \cup R, V)$ be a bipartite graph with the vertices partitioned into $L$ and $R$.
+We construct an $(s,t)$-flow network $\mathcal{N} = (H, c, S, T)$ from $G$ as follows:
+\begin{itemize}
+	\item Let $V(H) = V(G) \cup \{s,t\}$.
+	\item For each edge $\{u,v\}$ in $E(G)$ with $u \in L$ and $v \in R$, add a directed edge $(u,v)$ to $E(H)$. For each of these edges, set $c(u,v)=2$.
+	\item For each $v \in L$, add a directed edge $(s,v)$ to $E(G)$. For each of these edges, set $c(s,v) = 2$.
+	\item For each $v \in R$, add a directed edge $(v,t)$ to $E(H)$. For each of these edges, set $c(v,t) = 2$.
+\end{itemize}
+
+Answer each of the following:
+\begin{enumerate}[label=(\alph*)]
+\item Is it true that, for every matching $M$ in $G$, there exists an $(s,t)$-flow $f$ in $G'$ with $|f| = |M|$?
+If so, prove it.
+If not, give a counterexample where $G$ has at most $5$ vertices and explain what goes wrong. 
+
+\begin{proof}[Answer:] \
+\item Let $G^{\prime\prime} = (V^{\prime}, E^{\prime}, c^{\prime}, s, t)$ be the reduction from finding maximum matching to finding flow according to the reduction given in class. We know for every matching $M$ in $G$, saturating these edges with 2 units of flow in $G^{\prime\prime}$ is valid and gives us a flow of $f$, such that $|f| = |M|$ in $G^{\prime\prime}$. Thus, we can always find a flow with flow value $|M|$ in $G^{\prime\prime}$. We can see that for every edge $e \in E^{\prime}$ we have $c^{\prime} \leq c(e)$. Therefore, any valid flow in $G^{\prime\prime}$ would also be valid in $\mathcal{N}$. Accordingly, we conclude that for every matching $M$ in $G$ there exists a flow $f$ in $\mathcal{N}$, such that $|f| = |M|$.
+%Your answer here
+\end{proof}
+
+
+\vskip 15pt
+\item Is it true that, for every $(s,t)$-flow $f$ in $G'$, there exists a matching $M$ in $G$ with $|f| = |M|$?
+If so, prove it.
+If not, give a counterexample where $G$ has at most $5$ vertices and explain what goes wrong. 
+
+\begin{proof}[Answer:] \
+\item No. The provided example in represented in the first figure is sufficient counter example. Furthermore, every edge in $\mathcal{N}$ in the example can be saturated, giving a flow value of 4. Accordingly, we can see that there is no matching of size 4 in the initial graph.
+%Your answer here
+\end{proof}
+
+\end{enumerate}
+
+\emph{To help you understand the reduction we have drawn below an example of a bipartite graph and the resulting flow network. If you need to draw a graph as part of your answer you may copy and modify the tikzpictures or submit hand-drawn examples.}
+
+\begin{center}	
+	\begin{tikzpicture}[scale=1.6]
+	\node[vertex] (a) at ($(0,0) + (1,0)$) {$a$};
+	\node[vertex] (b) at ($(a) + (1,.5)$) {$b$};
+	\node[vertex] (c) at ($(a) + (1,-.5)$) {$c$};
+	
+	\draw (a) to (b);
+	\draw (a) to (c);
+	\end{tikzpicture}
+	\hspace{0.2\textwidth}
+	\begin{tikzpicture}[scale=1.6]
+	\node[vertex] (s) at ($(0,0) + (1,0)$) {$s$};
+	\node[vertex] (a) at ($(s) + (1,0)$) {$a$};
+	\node[vertex] (b) at ($(a) + (1,.5)$) {$b$};
+	\node[vertex] (c) at ($(a) + (1,-.5)$) {$c$};
+	\node[vertex] (t) at ($(c) + (1,.5)$) {$t$};
+	
+	\draw[->] (s) to[edge label=2] (a);
+	\draw[->] (a) to[edge label=2] (b);
+	\draw[->] (a) to[edge label=2] (c);
+	\draw[->] (b) to[edge label=2] (t);
+	\draw[->] (c) to[edge label=2] (t);
+	\end{tikzpicture}
+\end{center}
+\end{required}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

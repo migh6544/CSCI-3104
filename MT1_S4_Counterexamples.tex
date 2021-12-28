@@ -1,0 +1,192 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructors: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Midterm 1- Standard 4 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.gif}
+\DeclareGraphicsExtensions{.jpg}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill October / $11^{th}$ / 2021 \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{should be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You \textbf{may not collaborate with other students}. \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Discord, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\noindent 
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item I have not collaborated with any other person.
+\item I have not posted to external services including, but not limited to Chegg, Discord, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michael Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+\newpage
+\section{Standard 4- Examples Where Greedy Algorithms Fail}
+
+\subsection{Problem \ref{DFS1}}
+\begin{required} \label{DFS1}
+Suppose you want to drive from Town A to Town B along some fixed route of distance $d$, and you have a gas tank whose capacity will take you at most $m$ miles along the route. Let $0 < d_1 < d_2 < ... < d_n < d$ be the distances of each gas station along the route from Town A. (So the distance from $A$ to gas station 2 is $d_2$; the distance between the first two gas stations is $d_2 - d_1$.) Your goal is to get from $A$ to $B$ (equivalently, distance $0$ to distance $d$) (a) without running out of gas, and (b) stopping as few times as possible. \\
+    
+\noindent The natural strategy most people use is a greedy one: go as far as you can, but refuel at gas station $i$ if you don't have enough to get you to gas station $i+1$. This strategy indeed minimizes the number of stops you need to make.  \\
+
+\noindent Consider a different greedy strategy, in which you stop at the nearest available gas station. Give an example (specify $d, m$, and the distances between the gas stations) showing that this strategy is not optimal. Show what this greedy algorithm does on your example, which subset of gas stations it outputs, and exhibit a strictly smaller set of gas stations that would still allow you to successfully complete the trip.
+\end{required}
+
+\begin{proof}[Answer:] \
+\item \textbf{Lets take a closer look at the two algorithms mentioned in the problem. If we let $Q$ be the set of visited gas stations, let $D$ be the set of all gas stations, and assume there exists more than one solution} (i.e. we do not have to visit every gas station to complete our journey), \textbf{then an optimal solution should give us $|Q| < |D|$, while a sub-optimal solution would give us $|Q| = |D|$. Below is our proof of both algorithms and their respective outputs:}
+\begin{itemize}
+\item \textbf{Optimal algorithm will give us $|Q| < |D|$} \\
+func roadTrip\{D[$d_{1}$ $\to$$d_{n}$], m(max fuel)\} \\
+\hspace*{2mm} location = null \\
+\hspace*{2mm} Q = [0] \\
+\hspace*{2mm} m = int(max fuel) \\
+\hspace*{2mm} while[(m != 0) \&\& (location != $d_{n}$)]: \\
+\hspace*{4mm} for i in length(D): \\
+\hspace*{6mm} for j in length(D - 1): \\
+\hspace*{8mm} $d_{j}$ = $d_{i}$ + 1 \\
+\hspace*{8mm} if [m $<$ ($d_{j}$ - $d_{i}$)]: \\
+\hspace*{10mm} location = $d_{i}$ \\
+\hspace*{10mm} m = int(max fuel) \\
+\hspace*{10mm} add $d_{i}$ $\to$ Q \\
+\hspace*{8mm} else: \\
+\hspace*{10mm} location = $d_{j}$ \\
+\hspace*{10mm} m = int(max fuel) \\
+\hspace*{10mm} add $d_{j}$ $\to$ Q \\
+return(Q);
+
+\item \textbf{Sub-optimal algorithm will give us $|Q| = |D|$} \\
+func roadTrip\{D[$d_{1}$ $\to$$d_{n}$], m(max fuel)\} \\
+\hspace*{2mm} location = null \\
+\hspace*{2mm} Q = [0] \\
+\hspace*{2mm} m = int(max fuel) \\
+\hspace*{2mm} while[(m != 0) \&\& (location != $d_{n}$)]: \\
+\hspace*{4mm} for i in length(D): \\
+\hspace*{6mm} location = $d_{i}$ \\
+\hspace*{6mm} m = int(max fuel) \\
+\hspace*{6mm} add $d_{i}$ $\to$ Q \\
+return(Q);
+\end{itemize}
+%If you choose to type your answer, you may place your answer here.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+

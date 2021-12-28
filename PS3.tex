@@ -1,0 +1,715 @@
+\documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{tikz}
+\usepackage[colorinlistoftodos, color=orange!50]{todonotes}
+\usepackage{hyperref}
+\usepackage[numbers, square]{natbib}
+\usepackage{fancybox}
+\usepackage{epsfig}
+\usepackage{soul}
+\usepackage[framemethod=tikz]{mdframed}
+\usetikzlibrary{positioning, automata, backgrounds}
+\usepackage[shortlabels]{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{multicol}
+\usepackage{forest}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[numbers]{natbib}
+\usepackage{subfiles}
+\usepackage{tkz-berge}
+
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{cor}{Corollary}[prop]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{required}{Problem}
+
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+
+
+\newcommand{\interval}[4]{\draw (#2, #1) -- (#3, #1); % Usage: \interval{height}{start}{end}{label}
+\draw (#2, #1-0.11) -- (#2, #1+0.11); % draw left whisker
+\draw (#3, #1-0.11) -- (#3, #1+0.11); % draw right whisker
+\node[] at (#2-0.25, #1) {#4};
+}
+
+\setlength{\marginparwidth}{3.4cm}
+%#########################################################
+
+%To use symbols for footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+%To change footnotes back to numbers uncomment the following line
+%\renewcommand*{\thefootnote}{\arabic{footnote}}
+
+% Enable this command to adjust line spacing for inline math equations.
+% \everymath{\displaystyle}
+
+% _______ _____ _______ _      ______ 
+%|__   __|_   _|__   __| |    |  ____|
+%   | |    | |    | |  | |    | |__   
+%   | |    | |    | |  | |    |  __|  
+%   | |   _| |_   | |  | |____| |____ 
+%   |_|  |_____|  |_|  |______|______|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\normalfont \normalsize 
+\textsc{CSCI 3104 Fall 2021 \\ 
+Instructor: Profs. Grochow and Waggoner} \\
+[10pt] 
+\rule{\linewidth}{0.5pt} \\[6pt] 
+\huge Problem Set 3 \\
+\rule{\linewidth}{2pt}  \\[10pt]
+}
+%\author{Your Name}
+\date{}
+
+\begin{document}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+\definecolor{processred}{rgb}{200, 0, 0}
+\definecolor{processgreen}{rgb}{0, 255, 0}
+\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.gif}
+\DeclareGraphicsExtensions{.jpg}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%FILL IN YOUR NAME%%%%%%%
+%%%%%%%%%%AND STUDENT ID%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+Due Date \dotfill \textbf{September 21, 2021} \\
+Name \dotfill \textbf{Michael Ghattas} \\
+Student ID \dotfill \textbf{109200649} \\
+Collaborators \dotfill \textbf{Me, Myself, and I}
+
+\tableofcontents
+
+\section{Instructions}
+ \begin{itemize}
+	\item The solutions \textbf{must be typed}, using proper mathematical notation. We cannot accept hand-written solutions. \href{http://ece.uprm.edu/~caceros/latex/introduction.pdf}{Here's a short intro to \LaTeX.}
+	\item You should submit your work through the \textbf{class Canvas page} only. Please submit one PDF file, compiled using this \LaTeX \ template.
+	\item You may not need a full page for your solutions; pagebreaks are there to help Gradescope automatically find where each problem is. Even if you do not attempt every problem, please submit this document with no fewer pages than the blank template (or Gradescope has issues with it).
+
+	\item You are welcome and encouraged to collaborate with your classmates, as well as consult outside resources. You must \textbf{cite your sources in this document.} \textbf{Copying from any source is an Honor Code violation. Furthermore, all submissions must be in your own words and reflect your understanding of the material.} If there is any confusion about this policy, it is your responsibility to clarify before the due date. 
+
+	\item Posting to \textbf{any} service including, but not limited to Chegg, Reddit, StackExchange, etc., for help on an assignment is a violation of the Honor Code.
+
+	\item You \textbf{must} virtually sign the Honor Code (see Section \ref{HonorCode}). Failure to do so will result in your assignment not being graded.
+\end{itemize}
+
+
+\section{Honor Code (Make Sure to Virtually Sign)} \label{HonorCode}
+
+\begin{required}
+\begin{itemize}
+\item My submission is in my own words and reflects my understanding of the material.
+\item Any collaborations and external sources have been clearly cited in this document.
+\item I have not posted to external services including, but not limited to Chegg, Reddit, StackExchange, etc.
+\item I have neither copied nor provided others solutions they can copy.
+\end{itemize}
+
+%\noindent In the specified region below, clearly indicate that you have upheld the Honor Code. Then type your name. 
+\end{required}
+
+\begin{proof}[I agree to the above, Michel Ghattas.]
+%% Typing "I agree to the above," followed by your name is sufficient.
+\end{proof}
+
+
+
+\newpage
+\section{Standard 6 - MST: safe and useless edges}
+
+\begin{required}
+Consider the weighted graph $G(V, E, w)$ below. Let $\mathcal{F} = \{ \{A, B\}, \{A, G\}, \{E, F\}\}$ be an intermediate spanning forest (indicated by the thick edges below). Label each edge that is \textbf {not} in $\mathcal{F}$ as safe, useless, or undecided. Provide a 1-2 sentence explanation for each such edge.
+
+
+\begin{center}
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(B) edge node [left]  {5} (C)
+(B) edge node [left]  {8}  (E)
+(C) edge node [right] {3}  (D)
+(D) edge node [right] {23} (E)
+(F) edge node [below] {12} (G)
+(G) edge node [left]  {11} (B)
+(G) edge node [above] {12}  (E)
+;
+
+\draw[line width=0.75mm] (A) -- node [above] {4} (B);
+\draw[line width=0.75mm] (E) -- node [below] {5} (F);
+\draw[line width=0.75mm] (A) -- node [left] {9} (G);
+\end{tikzpicture}
+\end{center}
+\end{required}
+
+\begin{proof}[Answer:] \
+\begin{itemize}
+
+\item $\{B, C\}$ $\to$ \textbf{Safe:} It is a minimum-weight edge incident to $\{C\}$. Therefore, $\{B, C\}$ is a light edge with exactly one endpoint belonging to $\{C\}$, and the other to $\{G, A. B\}$. Thus $\{B, C\}$ is safe with respect to $\mathcal{F}$.
+
+\item $\{C, D\}$ $\to$ \textbf{Safe:} It is a minimum-weight edge incident to $\{D\}$. Therefore, $\{C, D\}$ is a light edge with exactly one endpoint belonging to $\{D\}$, and the other to $\{C\}$. Thus $\{C, D\}$ is safe with respect to $\mathcal{F}$.
+
+\item $\{D, E\}$ $\to$ \textbf{Safe:} It is a minimum-weight edge incident to $\{D\}$. Therefore, $\{D, E\}$ is a light edge with exactly one endpoint belonging to $\{D\}$, and the other to $\{E, F\}$. Thus $\{D, E\}$ is safe with respect to $\mathcal{F}$.
+
+\item $\{E, B\}$ $\to$ \textbf{Safe:} It is the minimum-weight edge with exactly one endpoint in the component $\{E, F\}$ (as well as  being the minimum-weight edge with exactly one endpoint in the component $\{G, A, B\}$). Thus $\{E, B\}$ is safe with respect to $\mathcal{F}$.
+
+\item $\{B, G\}$ $\to$ \textbf{Useless:} The edge $\{B, G\}$ creates has both endpoints in the component $\{G, A. B\}$. So $\{B, G\}$ is useless with respect to $\mathcal{F}$.
+
+\item $\{G, F\}$ $\to$ \textbf{Undecided:} While the edge $\{G, F\}$ connects the components $\{G, A, B\}$ and $\{E, F\}$, $\{G, F\}$ is not a minimum-weight edge doing so. Therefore, $\{G, F\}$ is undecided with respect to $\mathcal{F}$.
+
+\item $\{G, E\}$ $\to$ \textbf{Undecided:} While the edge $\{G, E\}$ connects the components $\{G, A, B\}$ and $\{E, F\}$, $\{G, E\}$ is not a minimum-weight edge doing so. Therefore, $\{G, E\}$ is undecided with respect to $\mathcal{F}$.
+
+\end{itemize}
+%Your answer goes here
+\end{proof}
+
+ 
+\newpage
+\section{Standard 7- Kruskal's Algorithm}
+
+\begin{required}
+Consider the weighted graph $G(V, E, w)$ below. Clearly list the order in which Kruskal's algorithm adds edges to a minimum-weight spanning tree for $G$. Additionally, clearly articulate the steps that Kruskal's algorithm takes as it selects the first \textbf{three} edges.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(B) edge node [left]  {16} (C)
+(B) edge node [left]  {8}  (E)
+(C) edge node [right] {3}  (D)
+(D) edge node [right] {23} (E)
+(F) edge node [below] {12} (G)
+(G) edge node [left]  {11} (B)
+(G) edge node [above] {12}  (E)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(A) edge node [left] {9} (G)
+;
+\end{tikzpicture}
+\end{center}
+\end{required}
+
+
+\begin{proof}[Answer:] \
+
+\item \textbf{1.} We initialize the intermediate spanning forest $\mathcal{F}$ to be the empty graph (the graph on no edges). We also place the edges of $G$ into a priority queue, which we call $Q$.
+\begin{center}
+\item $Q$ = [($\{C, D\}$, 3), ($\{A, B \}$, 4), ($\{E, F\}$, 5), ($\{E, B\}$, 8), ($\{G, A\}$, 9), ($\{G, B\}$, 11), ($\{G, F\}$, 12), ($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item Here, $(\{C, D\}, 3)$ indicates the edge $\{B, C\}$ has weight 1. The intermediate spanning forest $\mathcal{F}$  is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{2.} We poll from $Q$, which returns the edge $\{C, D\}$. Note that $w(\{C, D\}) = 3$. As $C$ and $D$ are on different components of $\mathcal{F}$, we add the edge $\{C, D\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{A, B\}$, 4), ($\{E, F\}$, 5), ($\{E, B\}$, 8), ($\{G, A\}$, 9), ($\{G, B\}$, 11), ($\{G, F\}$, 12), ($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{3.} We poll from $Q$, which returns the edge $\{A, B\}$. Note that $w(\{A, B\}) = 4$. As $A$ and $B$ are on different components of $\mathcal{F}$, we add the edge $\{A, B\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{E, F\}$, 5), ($\{E, B\}$, 8), ($\{G, A\}$, 9), ($\{G, B\}$, 11), ($\{G, F\}$, 12), ($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{4.} We poll from $Q$, which returns the edge $\{E, F\}$. Note that $w(\{E, F\}) = 5$. As $E$ and $F$ are on different components of $\mathcal{F}$, we add the edge $\{E, F\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{E, B\}$, 8), ($\{G, A\}$, 9), ($\{G, B\}$, 11), ($\{G, F\}$, 12), ($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{5.} We poll from $Q$, which returns the edge $\{E, B\}$. Note that $w(\{E, B\}) = 8$. As $E$ and $B$ are on different components of $\mathcal{F}$, we add the edge $\{E, B\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{G, A\}$, 9), ($\{G, B\}$, 11), ($\{G, F\}$, 12), ($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(B) edge node [left]  {8}  (E)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{6.} We poll from $Q$, which returns the edge $\{G, A\}$. Note that $w(\{G, A\}) = 9$. As $G$ and $A$ are on different components of $\mathcal{F}$, we add the edge $\{G, A\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{G, B\}$, 11), ($\{G, F\}$, 12), ($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(B) edge node [left]  {8}  (E)
+(A) edge node [left] {9} (G)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{7.} We poll from $Q$, which returns the edge $\{G, B\}$. Note that $w(\{G, B\}) = 11$. As $G$ and $B$ are on the same components of $\mathcal{F}$, we do \textbf{not} add the edge $\{G, B\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{G, F\}$, 12), ($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(B) edge node [left]  {8}  (E)
+(A) edge node [left] {9} (G)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{8.} We poll from $Q$, which returns the edge $\{G, F\}$. Note that $w(\{G, F\}) = 12$. As $G$ and $F$ are on the same components of $\mathcal{F}$, we do \textbf{not} add the edge $\{G, F\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{G, E\}$, 12), ($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(B) edge node [left]  {8}  (E)
+(A) edge node [left] {9} (G)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{9.} We poll from $Q$, which returns the edge $\{G, E\}$. Note that $w(\{G, E\}) = 12$. As $G$ and $E$ are on the same components of $\mathcal{F}$, we do \textbf{not} add the edge $\{G, E\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{B, C\}$, 16), ($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(B) edge node [left]  {8}  (E)
+(A) edge node [left] {9} (G)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{10.} We poll from $Q$, which returns the edge $\{B, C\}$. Note that $w(\{B, C\}) = 16$. As $B$ and $C$ are on different components of $\mathcal{F}$, we add the edge $\{B, C\}$ to $\mathcal{F}$.
+\begin{center}
+\item $Q$ = [($\{D, E\}$, 23)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(C) edge node [right] {3}  (D)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(B) edge node [left]  {8}  (E)
+(A) edge node [left] {9} (G)
+(B) edge node [left]  {16} (C)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{11. Now there are $[V(G)$ = $7)]$ $vertices$ and $\mathcal{F}$ has $[V(G)-1$ = $6)]$ $edges$, Kruskal’s algorithm terminates and returns $\mathcal{F}$, which is our minimum-weight spanning tree shown in step (10) above.}
+%Your answer goes here
+\end{proof}
+
+
+
+\newpage
+\section{Standard 8- Prim's Algorithm}
+
+\begin{required}
+Consider the weighted graph $G(V, E, w)$ below. Clearly list the order in which Prim's algorithm, \textbf{using the source vertex} $A$, adds edges to a minimum-weight spanning tree for $G$. Additionally, clearly articulate the steps that Prim's algorithm takes as it selects the first \textbf{three} edges.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(B) edge node [left]  {16} (C)
+(B) edge node [left]  {8}  (E)
+(C) edge node [right] {3}  (D)
+(D) edge node [right] {23} (E)
+(F) edge node [below] {12} (G)
+(G) edge node [left]  {11} (B)
+(G) edge node [above] {12}  (E)
+(A) edge node [above] {4} (B)
+(E) edge node [below] {5} (F)
+(A) edge node [left] {9} (G)
+;
+\end{tikzpicture}
+\end{center}
+\end{required}
+
+
+\begin{proof}[Answer:] \
+
+\item \textbf{1.} We initialize the intermediate spanning forest $\mathcal{F}$ to contain all the vertices of $G$, but no edges. We then initialize the priority queue to contain the edges incident to our source vertex $A$.
+\begin{center}
+\item $Q$ = [($\{A, B\}$, 4), ($\{A, G\}$, 9)]
+\item Here, $(\{C, D\}, 3)$ The intermediate spanning forest $\mathcal{F}$  is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{2.} We poll the edge $\{A, B\}$ from the queue and mark $\{A, B\}$ as processed. Note that $w(\{A, B\})$ = 4. As $\{A, B\}$ has exactly one endpoint on the component containing $A$ (which is the isolated vertex $A$), we add $\{A, B\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $B$.
+\begin{center}
+\item $Q$ = [($\{B, E\}$, 8), ($\{A, G\}$, 9), ($\{B, G\}$, 11), ($\{B, C\}$, 16)]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(A) edge node [above] {4} (B)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{3.} We poll the edge $\{B, E\}$ from the queue and mark $\{B, E\}$ as processed. Note that $w(\{B, E\})$ = 8. As $\{B, E\}$ has exactly one endpoint on the component containing $A$ (which is the isolated vertex $\{A, B\}$), we add $\{B, E\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $E$.
+\begin{center}
+\item $Q$ = [($\{E, F\}, 5)$, ($\{A, G\}$, 9), ($\{B, G\}$, 11), ($\{E, G\}$, 12), ($\{B, C\}$, 16), ($\{E, D\}, 23)$]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(A) edge node [above] {4} (B)
+(B) edge node [left]  {8}  (E)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{4.} We poll the edge $\{E, F\}$ from the queue and mark $\{E, F\}$ as processed. Note that $w(\{E, F\})$ = 5. As $\{E, F\}$ has exactly one endpoint on the component containing $A$ (which is the isolated vertex $\{B, E\}$), we add $\{E, F\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $F$.
+\begin{center}
+\item $Q$ = [($\{A, G\}$, 9), ($\{B, G\}$, 11), ($\{F, G\}$, 12), ($\{E, G\}$, 12), ($\{B, C\}$, 16), ($\{E, D\}, 23)$]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(A) edge node [above] {4} (B)
+(B) edge node [left]  {8}  (E)
+(E) edge node [below] {5} (F)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{5.} We poll the edge $\{A, G\}$ from the queue and mark $\{A, G\}$ as processed. Note that $w(\{A, G\})$ = 9. As $\{A, G\}$ has exactly one endpoint on the component containing $A$ (which is the isolated vertex $\{A, B\}$), we add $\{A, G\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $C$.
+\begin{center}
+\item $Q$ = [($\{C, D\}$, 3), ($\{B, G\}$, 11), ($\{F, G\}$, 12), ($\{E, G\}$, 12), ($\{B, C\}$, 16), ($\{E, D\}, 23)$]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(A) edge node [above] {4} (B)
+(B) edge node [left]  {8}  (E)
+(E) edge node [below] {5} (F)
+(A) edge node [left] {9} (G)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{6.} We poll the edge $\{B, C\}$ from the queue and mark $\{B, C\}$ as processed. Note that $w(\{B, C\})$ = 16. As $\{B, C\}$ has exactly one endpoint on the component containing $A$ (which is the isolated vertex $\{E, B\}$), we add $\{C, B\}$ to $\mathcal{F}$. We then push into the priority queue the unprocessed edges incident to $D$.
+\begin{center}
+\item $Q$ = [($\{C, D\}$, 3), ($\{B, G\}$, 11), ($\{F, G\}$, 12), ($\{E, G\}$, 12), ($\{E, D\}, 23)$]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(A) edge node [above] {4} (B)
+(B) edge node [left]  {8}  (E)
+(E) edge node [below] {5} (F)
+(A) edge node [left] {9} (G)
+(B) edge node [left]  {16} (C)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{7.} We poll the edge $\{C, D\}$ from the queue and mark $\{C, D\}$ as processed. Note that $w(\{C, D\})$ = 3. As $\{C, D\}$ has exactly one endpoint on the component containing $A$ (which is the isolated vertex $\{B, C\}$), We then push into the priority queue the unprocessed edges incident to $D$ (provided said edges are not already in the priority queue).
+\begin{center}
+\item $Q$ = [($\{B, G\}$, 11), ($\{F, G\}$, 12), ($\{E, G\}$, 12), ($\{E, D\}, 23)$]
+\item The updated intermediate spanning forest $\mathcal{F}$ is pictured below: \\
+
+\begin{tikzpicture}[scale=0.4, auto, node distance=3cm, every loop/.style={},
+  thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+\node[main node] (A) {A};
+\node[main node] (B) [right of=A] {B};
+\node[main node] (C) [above right of=B] {C};
+\node[main node] (D) [below right of=C] {D};
+\node[main node] (E) [below left of=D] {E};
+\node[main node] (F) [below left of=E] {F};
+\node[main node] (G) [above left of=F] {G};
+
+\path[line width=0.25mm, every node/.style={font=\sffamily\small}]
+(A) edge node [above] {4} (B)
+(B) edge node [left]  {8}  (E)
+(E) edge node [below] {5} (F)
+(A) edge node [left] {9} (G)
+(B) edge node [left]  {16} (C)
+(C) edge node [right] {3}  (D)
+;
+
+\end{tikzpicture}
+\end{center}
+
+\item \textbf{8. Now $\mathcal{F}$ has $[V(G)$ $- 1 = 7 - 1 =$ $6)]$ $edges$, the algorithm terminates and returns $\mathcal{F}$, which is our minimum-weight spanning tree shown in step (7) above.} 
+%Your answer goes here
+\end{proof}
+\end{document} % NOTHING AFTER THIS LINE IS PART OF THE DOCUMENT
+
+
+
